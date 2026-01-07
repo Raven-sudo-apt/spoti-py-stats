@@ -1,17 +1,29 @@
-import React from 'react'
+import { React, useEffect, useState } from 'react'
+import axios from 'axios'
+
 
 export default function displayArists() {
+    async function fetchArtists() {
+        try {
+            const response = await axios.get('http://localhost:8000/artists/');
+            console.log(response.data);
+        } catch (error) {
+            console.error('Error fetching artists:', error);
+        }
+    }
+    useEffect(() => {
+        fetchArtists();
+    }, []);
   return (
     <div>
         <p style={{fontSize: "24px", fontWeight: "bold"}}>Artists</p>
-        <div style={{display: "flex", flexWrap: "wrap", gap: "20px"}}>
-            {/* Example Artist Card */}
-            <div style={{width: "150px", textAlign: "center"}}>
-                <img src="https://via.placeholder.com/150" alt="Artist" style={{width: "100%", borderRadius: "50%"}} />
-                <p style={{marginTop: "10px", fontWeight: "bold"}}>Artist Name</p>
-            </div>
-            {/* Repeat Artist Cards as needed */}
+        <div style={{display: "flex"}}>
+            <ul>
+                <li>Artist 1</li>
+                <li>Artist 2</li>
+            </ul>
         </div>
+            
     </div>
   )
 }

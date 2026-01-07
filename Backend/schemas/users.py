@@ -17,9 +17,7 @@ class UserCreate(SQLModel):
     display_name: str
     email: EmailStr
     password: str = Field(min_length=8)
-    profilePicture: Optional[str] = None
-    pronouns: Optional[str] = None
-
+    
 class UserUpdate(SQLModel):
     display_name: Optional[str] = None
     profilePicture: Optional[str] = None

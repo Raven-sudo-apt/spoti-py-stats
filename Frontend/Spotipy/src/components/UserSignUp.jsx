@@ -1,11 +1,30 @@
-import React from 'react'
+import React, { use } from 'react'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
-    
-function UserSignUp(){
 
+function UserSignUp(){
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState(null);
+
+  function handleSubmit(event) {
+    useEffect(() => {
+      UserSignUp();}
+    , []);
+    event.preventDefault();
+
+  try {
+    const response = axios.post('http://localhost:8000/user');
+    setMessage(response.data.message);
+
+  }
+  catch (err) {
+    setError(err.message);
+    console.error('Error during sign up:', error);
+  }
+  }
 
  
   return (
@@ -22,7 +41,7 @@ function UserSignUp(){
             <input type="text" placeholder='Username' required />
             <input type="email" placeholder='Email' required />
             <input type="password" placeholder='Password' required />
-            <button id="signupbtn" type="submit">Sign Up</button>
+            <button onSubmit={handleSubmit} id="signupbtn" type="submit">Sign Up</button>
             <p>Already have an account? <Link to="/user/login">Log In</Link></p>
             
         </form>

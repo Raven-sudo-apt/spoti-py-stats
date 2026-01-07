@@ -16,8 +16,16 @@ function UserSignUp(){
         <h1>Spoti.py</h1>
         </div></Link>
     </div>
-    <div>
-
+    <div className='formbody'>
+        <form>
+            <h2>Sign Up</h2>
+            <input type="text" placeholder='Username' required />
+            <input type="email" placeholder='Email' required />
+            <input type="password" placeholder='Password' required />
+            <button id="signupbtn" type="submit">Sign Up</button>
+            <p>Already have an account? <Link to="/user/login">Log In</Link></p>
+            
+        </form>
     </div>
     </div>
   )

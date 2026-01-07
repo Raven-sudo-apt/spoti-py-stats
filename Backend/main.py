@@ -9,10 +9,10 @@ from fastapi.middleware.cors import CORSMiddleware
 load_dotenv()
 
 app = FastAPI()
-app.include_router(user_router, prefix="/users", tags=["users"])
-app.include_router(artist_router, prefix="/artists", tags=["artists"])
-app.include_router(album_router, prefix="/albums", tags=["albums"])
-app.include_router(track_router, prefix="/tracks", tags=["tracks"])
+app.include_router(user_router, prefix="/user", tags=["users"])
+app.include_router(artist_router, prefix="/artist", tags=["artists"])
+app.include_router(album_router, prefix="/album", tags=["albums"])
+app.include_router(track_router, prefix="/track", tags=["tracks"])
 
 
 

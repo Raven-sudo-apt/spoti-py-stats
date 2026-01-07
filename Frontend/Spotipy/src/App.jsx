@@ -1,9 +1,9 @@
 import React from 'react';
 import DisplayArtists from './components/displayArists.jsx';
 import { Route, Routes } from 'react-router-dom';
-import Users from './components/Users.jsx';
+import Users from './components/UserSignUp.jsx';
 import Home from './components/Home.jsx';
-import './styles/App.css';
+import UserSignUp from './components/UserSignUp.jsx';
 
 function App(){
 
@@ -11,8 +11,8 @@ function App(){
         <div>
             <Routes>
                 <Route path='/' Component={Home} />
-                <Route path="/users/login" Component={Users} />
-                <Route path="/users/signup" Component={Users} />
+                <Route path="/user/login" Component={Users} />
+                <Route path="/user/signup" Component={UserSignUp} />
             </Routes>
         </div>
     );

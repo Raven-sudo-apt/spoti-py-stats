@@ -8,6 +8,7 @@ html{
 a{
     color: #ddbb33;
     text-decoration: none;
+
 }
 
 #logo{
@@ -33,4 +34,19 @@ body{
     align-items: center;
     justify-content: center;
     gap: 30px;
+}
+#signupbtn, #loginbtn{
+    width: 150px;
+    height: 50px;
+    border-radius: 25px;
+    border: none;
+    background-color: #1db954;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    justify-content: center;
+    display: flex;
+    align-items: center;
 }

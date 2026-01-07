@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-
+import '../styles/home.css'
 function Home() {
 
   return (
@@ -9,12 +9,12 @@ function Home() {
         <img id="logo" src="../../src/assets/Python-logo-notext.svg.png" alt="Spoti.py Logo" />
         <h1>Spoti.py</h1>
         </div></Link>
-        <div className='homebody'>
         <p>Your ultimate music streaming experience.</p>
         <br />
-        <Link to="/users/signup">Sign Up</Link>
-        <br />
-        <p>Or if you have an account already, <Link to="/users/login">Log In</Link></p>
+        <div className='homebody'>
+        <p>Stream music and connect with your friends like never before</p>
+        <p>New here?</p><Link to="/user/signup"><div id='signupbtn'>Sign Up</div></Link>
+        <p>Or if you have an account already,</p> <Link to="/user/login"><div id='loginbtn'>Log In</div></Link>
         </div>
     </div>
   )

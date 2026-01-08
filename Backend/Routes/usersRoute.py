@@ -1,12 +1,15 @@
 from fastapi import APIRouter, UploadFile, File
-from fastapi.responses import JSONResponse
-from sqlmodel import Session
+from fastapi.responses import JSONResponse, Response
+from sqlmodel import Session, select
 import boto3
 import uuid
 from pwdlib import PasswordHash
 from db import engine
 from models.Users import User
-from schemas.users import UserCreate
+from schemas.users import UserCreate, UserLogin
+from datetime import datetime, timedelta, timezone
+import os
+import jwt
 user_router = APIRouter()
 
 hashedPassword = PasswordHash.recommended()
@@ -43,8 +46,29 @@ async def signup_user(user_req: UserCreate):
     
 
 @user_router.post("/login")
-async def login_user(email: str, password: str):
-    return {"message": "User logged in successfully"}
+def login_user(login_req: UserLogin, response: Response):
+    secret_key = os.getenv("JWT_SECRET")
+    expire = datetime.now(timezone.utc) + timedelta(days=1)
+    req_dict = login_req.model_dump()
+    with Session(engine) as session:
+        statement = select(User).where(User.email == req_dict["email"])
+        user = session.exec(statement).first()
+        if not user or not hashedPassword.verify(req_dict["password"], user.password_hash):
+            return JSONResponse(status_code=401, content={"message": "Invalid email or password"})
+        def create_jwt(user):
+            payload = {"sub": str(user.id), "exp": expire}
+            jwt_token = jwt.encode(payload, secret_key, "HS256")
+            return jwt_token
+        token = create_jwt(user)
+        response.set_cookie(key="jwt", value=token, httponly=False, max_age=None, secure=False, 
+                            samesite="lax", path="/", domain=None, partitioned=False, expires=expire)
+        print(token)
+        print (user.id)
+        return {"message": "Login successful"}
+         
+    
+        
+
 
 
 @user_router.get("/{user_id}")

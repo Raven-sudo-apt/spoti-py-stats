@@ -16,8 +16,10 @@ function UserSignUp(){
     event.preventDefault();
 
   try {
+    setLoading(true);
     const response = axios.post('http://localhost:8000/user');
     setMessage(response.data.message);
+    setLoading(false);
 
   }
   catch (err) {
@@ -35,8 +37,8 @@ function UserSignUp(){
         <h1>Spoti.py</h1>
         </div></Link>
     </div>
-    <div className='formbody'>
-        <form>
+    <div className='formcontainer'>
+        <form className='formbody'>
             <h2>Sign Up</h2>
             <input type="text" placeholder='Username' required />
             <input type="email" placeholder='Email' required />

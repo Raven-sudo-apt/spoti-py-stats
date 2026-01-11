@@ -8,6 +8,9 @@ function UserSignUp(){
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(null);
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   function handleSubmit(event) {
     useEffect(() => {
@@ -17,10 +20,15 @@ function UserSignUp(){
 
   try {
     setLoading(true);
-    const response = axios.post('http://localhost:8000/user');
+    const response = axios.post('http://localhost:8000/user/signup', {
+      "username": username,
+      "email": email,
+      "password": password
+    }
+    );
     setMessage(response.data.message);
     setLoading(false);
-
+    return "Sign up successful", message;
   }
   catch (err) {
     setError(err.message);
@@ -40,9 +48,12 @@ function UserSignUp(){
     <div className='formcontainer'>
         <form className='formbody'>
             <h2>Sign Up</h2>
-            <input type="text" placeholder='Username' required />
-            <input type="email" placeholder='Email' required />
-            <input type="password" placeholder='Password' required />
+            <input onChange={(event) => {
+              setUsername(event.target.value)}}type="text" placeholder='Username' required />
+            <input onChange={(event) => {
+              setEmail(event.target.value)}} type="email" placeholder='Email' required />
+            <input onChange={(event) => {
+              setPassword(event.target.value)}} type="password" placeholder='Password' required />
             <button onSubmit={handleSubmit} id="signupbtn" type="submit">Sign Up</button>
             <p>Already have an account? <Link to="/user/login">Log In</Link></p>
             

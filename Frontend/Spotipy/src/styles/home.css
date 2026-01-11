@@ -12,14 +12,14 @@ a{
 }
 
 #logo{
-    width: 50px;
+    width: 200px;
 }
 body{
     font-family: 'MS Gothic', sans-serif;
     font-weight: bold;
 }
 .homelogo{
-    width: 250px;
+    width: 200px;
     display: flex;
     gap: 20px;
     justify-content: center;

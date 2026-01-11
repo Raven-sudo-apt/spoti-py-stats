@@ -5,10 +5,9 @@ function Home() {
 
   return (
     <div>
-        <Link to="/"><div className="homelogo" style={{display: "flex", gap: "20px", alignItems: "center"}}>
-        <img id="logo" src="../../src/assets/Python-logo-notext.svg.png" alt="Spoti.py Logo" />
-        <h1>Spoti.py</h1>
-        </div></Link>
+        <div className="homelogo" style={{display: "flex", gap: "20px", alignItems: "center"}}>
+        <Link to="/"><img id="logo" src="../../src/assets/spotipy.png" alt="Spoti.py Logo" /></Link>
+        </div>
         <p>Your ultimate music streaming experience.</p>
         <br />
         <div className='homebody'>

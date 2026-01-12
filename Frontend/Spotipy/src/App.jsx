@@ -18,7 +18,6 @@ function App(){
                 <Route path="/user/signup" Component={UserSignUp} />
                 <Route path="/home" Component={AuthUserHome} />
                 <Route path="*" Component={notFound} />
-
             </Routes>
         </div>
     );

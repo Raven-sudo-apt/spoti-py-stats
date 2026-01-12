@@ -3,7 +3,6 @@ import { Route, Routes } from 'react-router-dom';
 import Home from './components/Home.jsx';
 import UserSignUp from './components/UserSignUp.jsx';
 import UserLogin from './components/UserLogin.jsx';
-import notFound from './components/notFound.jsx';
 import './styles/home.css';
 import './styles/forms.css';
 
@@ -15,7 +14,6 @@ function App(){
                 <Route path='/' Component={Home} />
                 <Route path="/user/login" Component={UserLogin} />
                 <Route path="/user/signup" Component={UserSignUp} />
-                <Route path="*" Component={notFound} />
 
             </Routes>
         </div>

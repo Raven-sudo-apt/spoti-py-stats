@@ -28,6 +28,11 @@ body{
     box-shadow: #041300 -12px -12px 12px 12px;
     border-radius: 30px;
     cursor: pointer;
+    transition: all 0.3s ease;
+}
+.homelogo:hover{
+    transform: scale(1.02);
+    transition: all 0.3s ease;
 }
 .homebody{
     display: flex;

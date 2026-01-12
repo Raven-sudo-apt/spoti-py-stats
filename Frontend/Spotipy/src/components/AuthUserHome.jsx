@@ -6,7 +6,7 @@ import '../styles/modal.css'
 import { Link } from 'react-router-dom'
 
 function AuthUserHome() {
-  const [userId, setUserId] = useState(null)
+  const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [ConfirmLogout, setConfirmLogout] = useState(false)
@@ -18,21 +18,35 @@ function AuthUserHome() {
         const response = await axios.get('http://localhost:8000/user/me', {
           withCredentials: true
         })
-        
-        setUserId(response.data)
+        console.log(response.data)
+        setUser(response.data)
         setLoading(false)
       } catch (err) {
         setError(`${err.message} Redirecting to login...`)  
         setLoading(false)
-        
-        setTimeout(() => {
-          navigate('/user/login')
-        }, 1500)
+        navigate('/user/login')
       }
-    }
-
+    }  
     verifyAuth()
   }, [navigate])
+
+
+  useEffect(() => {
+    if (user) {
+      document.title = `${user.username}'s Home - Spoti.py`
+    }
+  }, [user])
+
+  function loadProfilePicture() {
+    if (user && user.profile_picture) {
+      return <button id="profilepicbtn" onClick={() => navigate(`/user/${user.id}`)}>
+        <img id="profilepic" src={user.profile_picture} alt={user.username} /></button>
+      
+    }
+    else {
+      return <div>{user && <p>Logged in as <Link to={`/user/${user.id}`}>{user.username}</Link></p>}</div>
+    }
+  }
 
   const handleLogoutClick = () => {
     setConfirmLogout(true)
@@ -74,10 +88,8 @@ function AuthUserHome() {
           <input type="text" placeholder="Search for songs, artists, albums..." id="searchbar" />
           {/* <img id="searchicon" src="../../src/assets/searchicon.png" alt="Search Icon" /> */}
         </div>
-        <div id="profileandlogout" style={{display: "flex", alignItems: "center", gap: "15px"}}>
-          <div id="profilecircle">
-          <p>Logged in as <Link to={`/user/me`}>{userId?.username}</Link></p>
-          </div>
+        <div title={user ? user.username : ''} id="profilesection">
+        {loadProfilePicture()}
 
         <button className='logbtn' onClick={handleLogoutClick} style={{ padding: '10px 20px', cursor: 'pointer' }}>Logout</button>
         </div>
@@ -89,7 +101,7 @@ function AuthUserHome() {
       <div className='homebody'>
 
       </div>
-    </div>
+      </div>  
   )
 }
 

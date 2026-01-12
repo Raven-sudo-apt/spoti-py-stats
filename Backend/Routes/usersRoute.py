@@ -74,18 +74,14 @@ async def get_current_user(jwt: str = Cookie(...)):
         with Session(engine) as session:
             statement = select(User).where(User.id == (user_id))
             user = session.exec(statement).first()
-            return {"username": user.username}
+            user_dict = user.model_dump()
+            del user_dict["password_hash"]
+            return user_dict
     except Exception as err:
         raise HTTPException(status_code=401, detail=str(err)) 
         
 
-
-
-@user_router.get("/{user_id}")
-async def get_user(user_id: str):
-    return {"message": f"Get user with ID {user_id}"}
-
-@user_router.put("/{user_id}")
+@user_router.put("/me")
 async def update_user(user_id: str):
     return {"message": f"Update user with ID {user_id}"}
 

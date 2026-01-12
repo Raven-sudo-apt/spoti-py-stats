@@ -29,7 +29,7 @@ function UserSignUp(){
       }, 1500);
     }
     catch (err) {
-      setError(err.message);
+      setError("Email already in use, try logging in instead.");
       setLoading(false);
       console.error('Error during sign up:', err);
     }

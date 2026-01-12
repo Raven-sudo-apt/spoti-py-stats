@@ -1,5 +1,4 @@
 from fastapi import FastAPI
-import Routes
 from Routes.usersRoute import user_router
 from Routes.artistsRoute import artist_router
 from Routes.albumsRoute import album_router

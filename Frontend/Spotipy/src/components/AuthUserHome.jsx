@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import '../styles/home.css'
+import '../styles/modal.css'
 
 
 function AuthUserHome() {
@@ -33,20 +34,34 @@ function AuthUserHome() {
     verifyAuth()
   }, [navigate])
 
-  const handleLogout = () => {
-    function ConfirmLogout() {
-      return <div id="confirmModal">
-        <p>Are you sure you want to logout?</p>
-        <button onClick={() => setConfirmLogout(true)}>Yes</button>
-        <button onClick={() => setConfirmLogout(false)}>No</button>
-      </div>
-    }
-    if (ConfirmLogout) {
-      document.cookie = "jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
-      navigate('/')
-    }
+  const handleLogoutClick = () => {
+    setConfirmLogout(true)
   }
 
+  const handleConfirmLogout = () => {
+    document.cookie = "jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
+    setConfirmLogout(false)
+    navigate('/')
+  }
+
+  const handleCancelLogout = () => {
+    setConfirmLogout(false)
+  }
+
+  function ModalConfirmLogout() {
+    return (
+      <div className='ModalBackground'>
+        <div className='ModalConfirm'>
+          <h3>Confirm Logout</h3>
+          <p>Are you sure you want to logout?</p>
+          <div id="buttonContainer">
+            <button id='ConfirmButton' onClick={handleConfirmLogout}>Yes, Logout</button>
+            <button id='CancelButton' onClick={handleCancelLogout}>Cancel</button>
+          </div>
+        </div>
+      </div>
+    )
+  }
   return (
     <div>
     <div id="makeshiftnavbar">
@@ -55,13 +70,13 @@ function AuthUserHome() {
           <img id="logo" src="../../src/assets/spotipy.png" alt="Spoti.py Logo" />
         </div>
         </div>
-        <button className='logbtn' onClick={handleLogout} style={{ padding: '10px 20px', cursor: 'pointer' }}>Logout</button>
+        <button className='logbtn' onClick={handleLogoutClick} style={{ padding: '10px 20px', cursor: 'pointer' }}>Logout</button>
         </div>
+      {ConfirmLogout && <ModalConfirmLogout />}
       {loading && <p>Loading...</p>}
 
       <div className='homebody'>
-        <h2>Welcome Back!</h2>
-        <p>User ID: {userId}</p>
+        <h2>Welcome Back, {userId?.username}!</h2>
         <p>Stream music and connect with your friends like never before</p>
       </div>
     </div>

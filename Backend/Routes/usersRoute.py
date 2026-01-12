@@ -48,7 +48,7 @@ async def signup_user(user_req: UserCreate):
 @user_router.post("/login")
 def login_user(login_req: UserLogin, response: Response):
     secret_key = os.getenv("JWT_SECRET")
-    expire = datetime.now(timezone.utc) + timedelta(days=1)
+    expire = datetime.now(timezone.utc) + timedelta(days=30)
     req_dict = login_req.model_dump()
     with Session(engine) as session:
         statement = select(User).where(User.email == req_dict["email"])
@@ -71,7 +71,12 @@ async def get_current_user(jwt: str = Cookie(...)):
     secret_key = os.getenv("JWT_SECRET")
     try:
         payload = jwt_lib.decode(jwt, secret_key, "HS256")
-        return payload["sub"]
+        print(payload)
+        user_id = payload.get("sub")
+        with Session(engine) as session:
+            statement = select(User).where(User.id == (user_id))
+            user = session.exec(statement).first()
+            return {"username": user.display_name}
     except Exception as err:
         raise HTTPException(status_code=401, detail=str(err)) 
         

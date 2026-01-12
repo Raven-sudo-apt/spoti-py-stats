@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext.jsx';
 import Home from './components/Home.jsx';
 import UserSignUp from './components/UserSignUp.jsx';
 import UserLogin from './components/UserLogin.jsx';
@@ -12,10 +13,11 @@ import './styles/forms.css';
 import './styles/modal.css';
 import './styles/profile.css';
 
+
 function App(){
 
     return (
-        <div>
+        <AuthProvider>
             <Routes>
                 <Route path='/' Component={Home} />
                 <Route path="/user/login" Component={UserLogin} />
@@ -25,7 +27,7 @@ function App(){
                 <Route path='/tracks' Component={Tracks} />
                 <Route path='/user/:id' Component={MyProfile} />
             </Routes>
-        </div>
+        </AuthProvider>
     );
 }
 export default App;

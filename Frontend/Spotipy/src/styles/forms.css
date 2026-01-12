@@ -1,4 +1,4 @@
-#signupbtn, #loginbtn{
+.logbtn{
     width: 150px;
     height: 50px;
     border-radius: 25px;
@@ -14,7 +14,7 @@
     align-items: center;
     transition: all 0.3s ease-in-out; 
 }
-#signupbtn:hover, #loginbtn:hover{
+.logbtn:hover{
     background-color: #1fe264;
     transform: scale(1.05);
     transition: all 0.3s ease-in-out;   

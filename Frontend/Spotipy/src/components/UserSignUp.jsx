@@ -53,7 +53,7 @@ function UserSignUp(){
               setEmail(event.target.value)}} type="email" placeholder='Email' required />
             <input onChange={(event) => {
               setPassword(event.target.value)}} type="password" placeholder='Password' required />
-            <button onSubmit={handleSubmit} id="signupbtn" type="submit">Sign Up</button>
+            <button onSubmit={handleSubmit} className='logbtn' type="submit">Sign Up</button>
             <p>Already have an account? <Link to="/user/login">Log In</Link></p>
             
         </form>

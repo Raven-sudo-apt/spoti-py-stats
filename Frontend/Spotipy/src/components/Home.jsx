@@ -1,8 +1,30 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, {use, useState, useEffect} from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import '../styles/home.css'
-function Home() {
+import axios from 'axios';
 
+function Home() {
+const [isAuthenticated, setIsAuthenticated] = useState(false);
+const [loading, setLoading] = useState(true);
+const navigate = useNavigate();
+  const checkAuth = async () => {
+    try {
+      const response = await axios.get('http://localhost:8000/user/me', {
+        withCredentials: true
+      });
+      setIsAuthenticated(true);
+      setLoading(false);
+      navigate('/home');
+    } catch (err) {
+      setIsAuthenticated(false);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    checkAuth();
+  }, []);
+      
   return (
     <div>
         <div className="homelogo" style={{display: "flex", gap: "20px", alignItems: "center"}}>
@@ -13,8 +35,8 @@ function Home() {
         <div className='homebody'>
         {/* <img id='homeimage' src="../../src/assets/headphones.jpg" alt="Girl with Headphones" /> */}
         <p>Stream music and connect with your friends like never before</p>
-        <p>New here?</p><Link to="/user/signup"><div id='signupbtn'>Sign Up</div></Link>
-        <p>Or if you have an account already,</p> <Link to="/user/login"><div id='loginbtn'>Log In</div></Link><p/>
+        <p>New here?</p><Link to="/user/signup"><div className='logbtn'>Sign Up</div></Link>
+        <p>Or if you have an account already,</p> <Link to="/user/login"><div className='logbtn'>Log In</div></Link><p/>
         </div>
     </div>
   )

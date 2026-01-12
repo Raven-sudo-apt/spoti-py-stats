@@ -74,6 +74,7 @@ function AuthUserHome() {
         </div>
       {ConfirmLogout && <ModalConfirmLogout />}
       {loading && <p>Loading...</p>}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
 
       <div className='homebody'>
         <h2>Welcome Back, {userId?.username}!</h2>

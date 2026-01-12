@@ -33,7 +33,7 @@ async def list_users():
 async def signup_user(user_req: UserCreate):
     try:
         with Session(engine) as session:
-            user_req_dict = user_req.model_dump(exclude_none=True)
+            user_req_dict = user_req.model_dump(exclude_none=True)  
             hashed_password = hashedPassword.hash(user_req_dict["password"])
             del user_req_dict["password"]
             user = User(**user_req_dict, password_hash=hashed_password)
@@ -42,7 +42,7 @@ async def signup_user(user_req: UserCreate):
             session.refresh(user)
     except Exception as err:
         return JSONResponse(status_code=400, content={"message": "Error creating user", "error": str(err)})
-    return JSONResponse(status_code=201, content={"message": "User created successfully, redirecting to login page..."})
+    return JSONResponse(status_code=201, content={"message": "Sign up successful, redirecting to login page..."})
     
 
 @user_router.post("/login")
@@ -76,7 +76,7 @@ async def get_current_user(jwt: str = Cookie(...)):
         with Session(engine) as session:
             statement = select(User).where(User.id == (user_id))
             user = session.exec(statement).first()
-            return {"username": user.display_name}
+            return {"username": user.username}
     except Exception as err:
         raise HTTPException(status_code=401, detail=str(err)) 
         

@@ -7,7 +7,7 @@ function UserSignUp(){
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(null);
-  const [display_name, setDisplayName] = useState('');
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ function UserSignUp(){
     try {
       setLoading(true);
       const response = await axios.post('http://localhost:8000/user/signup', {
-        "display_name": display_name,
+        "username": username,
         "email": email,
         "password": password
       });
@@ -29,7 +29,7 @@ function UserSignUp(){
       }, 1500);
     }
     catch (err) {
-      setError("Email already in use, try logging in instead.");
+      setError("Email or username already in use, try logging in instead.");
       setLoading(false);
       console.error('Error during sign up:', err);
     }
@@ -51,7 +51,7 @@ function UserSignUp(){
               <input onChange={(event) => {
               setPassword(event.target.value); setError('');}} value={password} type="password" placeholder='Password' required />
             <input onChange={(event) => {
-              setDisplayName(event.target.value); setError('');}} value={display_name} type="text" placeholder='Username' required />
+              setUsername(event.target.value); setError('');}} value={username} type="text" placeholder='Username' required />
             
             <button className='logbtn' type="submit" disabled={loading}>{loading ? 'Signing up...' : 'Sign Up'}</button>
             {error && <p style={{ color: 'red' }}>{error}</p>}

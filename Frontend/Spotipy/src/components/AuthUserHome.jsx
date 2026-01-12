@@ -8,6 +8,7 @@ function AuthUserHome() {
   const [userId, setUserId] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [ConfirmLogout, setConfirmLogout] = useState(false)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -20,8 +21,7 @@ function AuthUserHome() {
         setUserId(response.data)
         setLoading(false)
       } catch (err) {
-        console.error('Authentication failed:', err.message)
-        setError('Authentication failed. Redirecting to login...')
+        setError(`${err.message} Redirecting to login...`)  
         setLoading(false)
         
         setTimeout(() => {
@@ -33,28 +33,32 @@ function AuthUserHome() {
     verifyAuth()
   }, [navigate])
 
-  if (loading) {
-    return <div style={{ padding: '20px', textAlign: 'center' }}>Loading...</div>
-  }
-
-  if (error) {
-    return <div style={{ padding: '20px', color: 'red', textAlign: 'center' }}>{error}</div>
-  }
-
   const handleLogout = () => {
-
-    document.cookie = "jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
-    navigate('/')
+    function ConfirmLogout() {
+      return <div id="confirmModal">
+        <p>Are you sure you want to logout?</p>
+        <button onClick={() => setConfirmLogout(true)}>Yes</button>
+        <button onClick={() => setConfirmLogout(false)}>No</button>
+      </div>
+    }
+    if (ConfirmLogout) {
+      document.cookie = "jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
+      navigate('/')
+    }
   }
 
   return (
     <div>
+    <div id="makeshiftnavbar">
       <div className="homelogo">
         <div>
           <img id="logo" src="../../src/assets/spotipy.png" alt="Spoti.py Logo" />
         </div>
+        </div>
         <button className='logbtn' onClick={handleLogout} style={{ padding: '10px 20px', cursor: 'pointer' }}>Logout</button>
-      </div>
+        </div>
+      {loading && <p>Loading...</p>}
+
       <div className='homebody'>
         <h2>Welcome Back!</h2>
         <p>User ID: {userId}</p>

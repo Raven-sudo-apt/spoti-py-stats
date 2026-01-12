@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, {useState} from 'react'
+import React, {use, useState} from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 function UserLogin() {
@@ -21,14 +21,15 @@ function UserLogin() {
       setMessage(response.data.message);
       setLoading(false);
       setTimeout(() => {
-      navigate('/');}, 500);
+      navigate('/home');}, 500);
     } catch (err) {
-      setError(err.message);
+      setError("Invalid email or password, please try again.");
       setLoading(false);
       return <div>
         <p>{err.message}</p>
       </div>
     }
+    
   }
       
   return (
@@ -41,13 +42,14 @@ function UserLogin() {
         <div className='formcontainer'>
             <form className='formbody' onSubmit={handleSubmit}>
                 <h2>Log In</h2>
-                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder='Email' required />
-                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Password' required />
+                <input type="email" value={email} onChange={(e) => { setEmail(e.target.value); setError(''); }} placeholder='Email' required />
+                <input type="password" value={password} onChange={(e) => { setPassword(e.target.value); setError(''); }} placeholder='Password' required />
                 <button className='logbtn' type="submit" disabled={loading}>{loading ? <p>Logging in...</p> : "Log In"}</button>
-                <p>Don't have an account? <Link to="/user/signup">Sign Up</Link></p>
-
                 {error && <p style={{ color: 'red' }}>{error}</p>}
                 {message && <p style={{ color: 'green' }}>{message}</p>}
+                <p>Don't have an account? <Link to="/user/signup">Sign Up</Link></p>
+
+                
             </form>
         </div>
     </div>

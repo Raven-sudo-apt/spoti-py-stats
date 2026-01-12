@@ -1,39 +1,38 @@
-import React, { use } from 'react'
+import React, { useState } from 'react'
 import axios from 'axios'
-import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 
 function UserSignUp(){
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(null);
-  const [username, setUsername] = useState('');
+  const [display_name, setDisplayName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
-  function handleSubmit(event) {
-    useEffect(() => {
-      UserSignUp();}
-    , []);
+  async function handleSubmit(event) {
     event.preventDefault();
 
-  try {
-    setLoading(true);
-    const response = axios.post('http://localhost:8000/user/signup', {
-      "username": username,
-      "email": email,
-      "password": password
+    try {
+      setLoading(true);
+      const response = await axios.post('http://localhost:8000/user/signup', {
+        "display_name": display_name,
+        "email": email,
+        "password": password
+      });
+      setMessage(response.data.message);
+      setLoading(false);
+      setTimeout(() => {
+        navigate('/user/login');
+      }, 1500);
     }
-    );
-    setMessage(response.data.message);
-    setLoading(false);
-    return "Sign up successful", message;
-  }
-  catch (err) {
-    setError(err.message);
-    console.error('Error during sign up:', error);
-  }
+    catch (err) {
+      setError(err.message);
+      setLoading(false);
+      console.error('Error during sign up:', err);
+    }
   }
 
  
@@ -45,16 +44,20 @@ function UserSignUp(){
                 </div>
     </div>
     <div className='formcontainer'>
-        <form className='formbody'>
+        <form className='formbody' onSubmit={handleSubmit}>
             <h2>Sign Up</h2>
             <input onChange={(event) => {
-              setUsername(event.target.value)}}type="text" placeholder='Username' required />
+              setEmail(event.target.value); setError('');}} value={email} type="email" placeholder='Email' required />
+              <input onChange={(event) => {
+              setPassword(event.target.value); setError('');}} value={password} type="password" placeholder='Password' required />
             <input onChange={(event) => {
-              setEmail(event.target.value)}} type="email" placeholder='Email' required />
-            <input onChange={(event) => {
-              setPassword(event.target.value)}} type="password" placeholder='Password' required />
-            <button onSubmit={handleSubmit} className='logbtn' type="submit">Sign Up</button>
+              setDisplayName(event.target.value); setError('');}} value={display_name} type="text" placeholder='Username' required />
+            
+            <button className='logbtn' type="submit" disabled={loading}>{loading ? 'Signing up...' : 'Sign Up'}</button>
+            {error && <p style={{ color: 'red' }}>{error}</p>}
+            {message && <p style={{ color: 'green' }}>{message}</p>}
             <p>Already have an account? <Link to="/user/login">Log In</Link></p>
+      
             
         </form>
     </div>

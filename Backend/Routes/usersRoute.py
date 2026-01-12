@@ -1,4 +1,4 @@
-from fastapi import APIRouter, UploadFile, File
+from fastapi import APIRouter, Cookie, HTTPException, UploadFile, File
 from fastapi.responses import JSONResponse, Response
 from sqlmodel import Session, select
 import boto3
@@ -9,7 +9,7 @@ from models.Users import User
 from schemas.users import UserCreate, UserLogin
 from datetime import datetime, timedelta, timezone
 import os
-import jwt
+import jwt as jwt_lib
 user_router = APIRouter()
 
 hashedPassword = PasswordHash.recommended()
@@ -42,7 +42,7 @@ async def signup_user(user_req: UserCreate):
             session.refresh(user)
     except Exception as err:
         return JSONResponse(status_code=400, content={"message": "Error creating user", "error": str(err)})
-    return JSONResponse(status_code=201, content={"message": "User created successfully with user ID", "user_id": str(user.id)})
+    return JSONResponse(status_code=201, content={"message": "User created successfully, redirecting to login page..."})
     
 
 @user_router.post("/login")
@@ -57,16 +57,23 @@ def login_user(login_req: UserLogin, response: Response):
             return JSONResponse(status_code=401, content={"message": "Invalid email or password"})
         def create_jwt(user):
             payload = {"sub": str(user.id), "exp": expire}
-            jwt_token = jwt.encode(payload, secret_key, "HS256")
+            jwt_token = jwt_lib.encode(payload, secret_key, "HS256")
             return jwt_token
         token = create_jwt(user)
         response.set_cookie(key="jwt", value=token, httponly=False, max_age=None, secure=False, 
                             samesite="lax", path="/", domain=None, partitioned=False, expires=expire)
         print(token)
         print (user.id)
-        return {"message": "Login successful"}
+        return {"message": "Login successful, redirecting..."}
          
-    
+@user_router.get("/me")
+async def get_current_user(jwt: str = Cookie(...)):
+    secret_key = os.getenv("JWT_SECRET")
+    try:
+        payload = jwt_lib.decode(jwt, secret_key, "HS256")
+        return payload["sub"]
+    except Exception as err:
+        raise HTTPException(status_code=401, detail=str(err)) 
         
 
 

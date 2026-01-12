@@ -31,6 +31,6 @@ async def update_track(track_id: str):
 async def delete_track(track_id: str):
     return {"message": f"Delete track with ID {track_id}"}
 
-@track_router.get("/user/{user_id}")
-async def get_tracks_by_user(user_id: str):
-    return {"message": f"Get tracks for user with ID {user_id}"}
+@track_router.get("/stream/{track_id}")
+async def stream_track(track_id: str):
+    return {"message": f"Stream track with ID {track_id}"}

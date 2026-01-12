@@ -62,7 +62,6 @@ def login_user(login_req: UserLogin, response: Response):
         token = create_jwt(user)
         response.set_cookie(key="jwt", value=token, httponly=False, max_age=None, secure=False, 
                             samesite="lax", path="/", domain=None, partitioned=False, expires=expire)
-        print(token)
         print (user.id)
         return {"message": "Login successful, redirecting..."}
          
@@ -71,7 +70,6 @@ async def get_current_user(jwt: str = Cookie(...)):
     secret_key = os.getenv("JWT_SECRET")
     try:
         payload = jwt_lib.decode(jwt, secret_key, "HS256")
-        print(payload)
         user_id = payload.get("sub")
         with Session(engine) as session:
             statement = select(User).where(User.id == (user_id))

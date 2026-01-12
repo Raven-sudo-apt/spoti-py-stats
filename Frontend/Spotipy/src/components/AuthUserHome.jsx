@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import '../styles/home.css'
 import '../styles/modal.css'
-
+import { Link } from 'react-router-dom'
 
 function AuthUserHome() {
   const [userId, setUserId] = useState(null)
@@ -69,16 +69,25 @@ function AuthUserHome() {
         <div>
           <img id="logo" src="../../src/assets/spotipy.png" alt="Spoti.py Logo" />
         </div>
+      </div>
+        <div>
+          <input type="text" placeholder="Search for songs, artists, albums..." id="searchbar" />
+          {/* <img id="searchicon" src="../../src/assets/searchicon.png" alt="Search Icon" /> */}
         </div>
+        <div id="profileandlogout" style={{display: "flex", alignItems: "center", gap: "15px"}}>
+          <div id="profilecircle">
+          <p>Logged in as <Link to={`/user/me`}>{userId?.username}</Link></p>
+          </div>
+
         <button className='logbtn' onClick={handleLogoutClick} style={{ padding: '10px 20px', cursor: 'pointer' }}>Logout</button>
         </div>
+    </div>
       {ConfirmLogout && <ModalConfirmLogout />}
       {loading && <p>Loading...</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
       <div className='homebody'>
-        <h2>Welcome Back, {userId?.username}!</h2>
-        <p>Stream music and connect with your friends like never before</p>
+
       </div>
     </div>
   )

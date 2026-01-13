@@ -9,8 +9,7 @@ class Track(SQLModel , table=True):
     artist_name: str
     album_title: str
     duration_seconds: int
-    is_licensed: bool
-    licensed_audio_url: str | None
+    audio_url: str | None
     cover_url: str | None
     explicit: bool
     created_at: datetime = Field(default_factory=datetime.now)

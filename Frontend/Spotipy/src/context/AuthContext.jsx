@@ -1,5 +1,6 @@
 import React, {createContext, useContext, useEffect, useState} from 'react'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 const AuthContext = createContext()
 
@@ -8,13 +9,16 @@ export function AuthProvider({ children }) {
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
+    const [confirmLogout, setConfirmLogout] = useState(false)
+    const navigate = useNavigate()
 
     useEffect(() => {
     const verifyAuth = async () => {
     try{
-    const response = axios.get('http://localhost:8000/user/me', {
+    const response = await axios.get('http://localhost:8000/user/me', {
         withCredentials: true
       })
+      setError(null)
       setUser(response.data)
         setLoading(false)
     } catch (err) {
@@ -24,14 +28,69 @@ export function AuthProvider({ children }) {
       }
     }
     verifyAuth()
-    }, [])
+    }, [navigate])
 
+    const handleLogout = () => {
+      setConfirmLogout(true)
+    }
+  
+    const cancelLogout = () => {
+      setConfirmLogout(false)
+    }
+  
     const logout = () => {
         document.cookie = "jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
         setUser(null)
+        navigate('/')
     }
+    function ModalConfirmLogout() {
+      return (
+        <div className='ModalBackground'>
+          <div className='ModalConfirm'>
+            <h3>Confirm Logout</h3>
+            <p>Are you sure you want to logout?</p>
+            <div id="buttonContainer">
+              <button id='ConfirmButton' onClick={logout}>Yes, Logout</button>
+              <button id='CancelButton' onClick={cancelLogout}>Cancel</button>
+            </div>
+          </div>
+        </div>)
+  }
+
+    function makeshiftNavbar() {
+    return (
+      <div id="makeshiftnavbar">
+      <div className="homelogo">
+        <div>
+          <img id="logo" src="../../src/assets/spotipy.png" alt="Spoti.py Logo" />
+        </div>
+      </div>
+        <div>
+          <input type="text" placeholder="Search for songs, artists, albums..." id="searchbar" />
+          {/* <img id="searchicon" src="../../src/assets/searchicon.png" alt="Search Icon" /> */}
+        </div>
+        <div title={user ? user.username : ''} id="profilesection">
+        {loadProfilePicture()}
+
+        <button className='logbtn' onClick={handleLogout} style={{ padding: '10px 20px', cursor: 'pointer' }}>Logout</button>
+        </div>
+    {confirmLogout && <ModalConfirmLogout />}
+    </div>
+    )
+  }
+    function loadProfilePicture() {
+      if (user && user.profile_picture) {
+        return <button id="profilepicbtn" onClick={() => navigate(`/user/me`)}>
+          <img id="profilepic" src={user.profile_picture} alt={user.username} /></button>
+        
+      }
+      else {
+        return <div>{user && <p>Logged in as <Link to={`/user/me`}>{user.username}</Link></p>}</div>
+      }
+    }
+    
   return (
-    <AuthContext.Provider value={{ user, loading, error, logout }}>
+    <AuthContext.Provider value={{ user, loading, error, navigate, confirmLogout, makeshiftNavbar, ModalConfirmLogout, handleLogout, loadProfilePicture }}>
         {children}
     </AuthContext.Provider>
   )

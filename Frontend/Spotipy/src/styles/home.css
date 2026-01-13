@@ -1,9 +1,29 @@
 html{
+    top: 0;
     margin: 0;
     padding: 0;
     height: 100%;
     background: linear-gradient(135deg, #1d1b01, #1a7205);
     color: white;
+}
+body, #root{
+    margin: 0;
+    padding: 0;
+}
+
+#makeshiftnavbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    left: 0;
+    right: 0;
+    top: 0;
+    padding: 12px;
+    box-shadow: #041300 0px 4px 8px;
+    position: sticky;
+    border-radius: 12px;
+    background-color: #0d2004;
+    z-index: 1000;
 }
 a{
     color: #ddbb33;
@@ -15,7 +35,7 @@ a{
     width: 200px;
 }
 body{
-    font-family: 'MS Gothic', sans-serif;
+    font-family: 'Montserrat', monospace;
     font-weight: bold;
 }
 .homelogo{
@@ -36,17 +56,15 @@ body{
 }
 .homebody{
     display: flex;
-    flex-direction: column;
     margin-left: auto;
     margin-right: auto;
-    align-items: center;
-    justify-content: center;
-    gap: 30px;
+    width: 100%;
+    justify-content: space-between;
 }
 #homeimage{
-    width: 1000px;
-    right: 0;
-    left: 0;
+    width: 100%;
+    max-width: 500px;
+    position: relative;
 }
 .goHome{
     display: flex;
@@ -60,10 +78,131 @@ body{
     margin-left: auto;
     margin-right: auto;
 }
-#makeshiftnavbar{
+
+.library {
+    width: 300px;
+    height: fit-content;
+    margin-left: 0;
+    border-radius: 12px;
+    box-shadow: #131102 0px 4px 8px;
+    transform: scaleY(1.02);
+    transition: all 0.3s ease;
+}
+
+.libraryHeader{
     display: flex;
-    gap: 20px;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    margin-top: 10px;
+    gap: 10px;
+    box-shadow: #131102 0px 4px 8px;
+    width: 300px;
+    border-radius: 12px;
+    height: 65px;
+}
+
+.libraryItems{
+    display: flex;
+    flex-direction: column;
+    overflow: scroll;
+    gap: 15px;
+    padding: 10px   ;
+}
+.addToLibrary{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    padding: 20px;
+}
+.createPlaylist{
+    width: 250px;
+    height: 250px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    box-shadow: #041300 0px 4px 8px;
+    background: none;
+    border: none;
+    color: white;
+    font-family: 'Montserrat', monospace;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.createPlaylist:hover{
+    transform: scale(1.05);
+    transition: all 0.3s ease;
+}
+
+.addTrack{
+    width: 250px;
+    height: 250px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    box-shadow: #041300 0px 4px 8px;
+    background: none;
+    border: none;
+    color: white;
+    font-family: 'Montserrat', monospace;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.addTrack:hover{
+    transform: scale(1.05);
+    transition: all 0.3s ease;
+}
+.nowPlaying{
+    width: 300px;
+    height: fit-content;
+    margin-right: 0;
+    border-radius: 12px;
+    box-shadow: #131102 0px 4px 8px;
+    transition: all 0.3s ease;
+}
+.nowPlayingHeader{
+    width: 300px;
+    box-shadow: #131102 0px 4px 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.nowPlayingInfo{
+    display: flex;
+    flex-direction: column;
+    overflow: scroll;
+    gap: 15px;
+    padding: 10px   ;
+}
+.footer{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 10px 20px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    height: auto;
+    background-color: #0d2004;
+    border-radius: 12px 12px 0 0;
+    z-index: 1000;
+}
+.playingTrack{
+    width: 100%;
+    height: content;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    bottom: 0;
+    z-index: 1000;
 }

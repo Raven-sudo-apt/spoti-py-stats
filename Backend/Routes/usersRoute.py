@@ -80,6 +80,19 @@ async def get_current_user(jwt: str = Cookie(...)):
     except Exception as err:
         raise HTTPException(status_code=401, detail=str(err)) 
         
+@user_router.get("/{user_id}")
+async def get_user_by_id(user_id: str):
+    with Session(engine) as session:
+        statement = select(User).where(User.id == user_id)
+        user = session.exec(statement).first()
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+        user_dict = user.model_dump()
+        del user_dict["password_hash"]
+        del user_dict["email"]
+        del user_dict["share_activity"]
+        del user_dict["share_local_metadata"]
+        return user_dict
 
 @user_router.put("/me")
 async def update_user(user_id: str):

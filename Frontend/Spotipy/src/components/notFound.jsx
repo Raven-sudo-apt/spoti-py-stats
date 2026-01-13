@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 function notFound() {
   return (
-
+    <title>Spoti.py - Page Not Found</title>,
     <div>
         <div className="goHome" style={{display: "flex", gap: "20px", alignItems: "center"}}>
         <img id="logo" src="../../src/assets/spotipy.png" alt="Spoti.py Logo" />

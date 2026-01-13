@@ -3,39 +3,19 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext.jsx'
 
-function displayPlaylist() {
+function displayPlaylists() {
 
 
-    const navigate = useNavigate()
-    const [userId, setUserId] = useState(null)
-    const [loading, setLoading] = useState(true)
-    const [error, setError] = useState(null)
-    useEffect(() => {
-        const verifyAuth = async () => {
-          try {
-            const response = await axios.get('http://localhost:8000/user/me', {
-              withCredentials: true
-            })
-            
-            setUserId(response.data)
-            setLoading(false)
-          } catch (err) {
-            setError(`${err.message} Redirecting to login...`)  
-            setLoading(false)
-            navigate('/user/login')
-            
-          }
-        }
-    
-        verifyAuth()
-      }, [navigate])
+    const { user, loading, error, logout, navigate } = useAuth()
+
   return (
     <div>
-      
+        
     </div>
   )
 }
 
 
-export default displayPlaylist
+export default displayPlaylists

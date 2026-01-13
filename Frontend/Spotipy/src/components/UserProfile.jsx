@@ -5,26 +5,10 @@ import { useNavigate } from "react-router-dom";
 
 function UserProfile() {
     const { id } = useParams();
-    const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const navigate = useNavigate();
-    useEffect(() => {
-        const verifyAuth = async () => {
-          try {
-            const response = await axios.get('http://localhost:8000/user/me', {
-              withCredentials: true
-            });
-            setUser(response.data);
-            setLoading(false);
-          } catch (err) {
-            setError(`${err.message} Redirecting to login...`);  
-            setLoading(false);
-            navigate('/user/login');
-          }
-        };
-        verifyAuth();
-      }, [navigate]);
+    const { user, loading, error, logout } = useAuth()
+    const [userProfile, setUser] = useState(null);
+
+
       useEffect(() => {
         const fetchUserProfile = async () => {
           try {
@@ -32,11 +16,10 @@ function UserProfile() {
               withCredentials: true
             });
             setUser(response.data);
-            setLoading(false);
           } catch (err) {
-            setError(`Error fetching user profile: ${err.message}`);
-            setLoading(false);
-          }
+            console.error("Error fetching user profile:", err);
+            setUser(null);
+          } 
         };
         fetchUserProfile();
       }, [id]);

@@ -43,6 +43,7 @@ export function AuthProvider({ children }) {
   const login = async (email, password) => {
     setLoading(true)
     setError(null)
+    setConfirmLogout(false)
     try {
       const response = await axios.post('http://localhost:8000/user/login', {
         email,
@@ -58,7 +59,7 @@ export function AuthProvider({ children }) {
       navigate('/home')
       return response.data
     } catch (err) {
-      setError(err.response?.data?.message || 'Login failed')
+      setError(err.message || 'Login failed')
       throw err
     } finally {
       setLoading(false)
@@ -116,9 +117,6 @@ export function AuthProvider({ children }) {
           <div>
             <img id="logo" src="../../src/assets/spotipy.png" alt="Spoti.py Logo" />
           </div>
-        </div>
-        <div>
-          <input type="text" placeholder="Search for songs, artists, albums..." id="searchbar" />
         </div>
         <div title={user ? user.username : ''} id="profilesection">
           {loadProfilePicture()}

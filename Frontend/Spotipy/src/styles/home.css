@@ -207,3 +207,11 @@ body{
     bottom: 0;
     z-index: 1000;
 }
+input {
+    width: 250px;
+    height: 40px;
+    border-radius: 20px;
+    border: none;
+    padding: 0 15px;
+    font-size: 16px;
+}

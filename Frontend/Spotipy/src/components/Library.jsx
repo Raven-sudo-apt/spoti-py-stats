@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useAuth } from '../context/AuthContext.jsx'
+import NowPlayingInfo from './nowPlayingInfo.jsx'
 
-function Library() {
+function Library({ onSelectTrack }) {
   const { user, token } = useAuth()
   const [tracks, setTracks] = useState([])
   const [loading, setLoading] = useState(false)
@@ -32,7 +33,7 @@ function Library() {
 
     fetchTracks()
   }, [token])
-
+  
   return (
     <div className='library'>
       <div className='libraryHeader'>
@@ -65,15 +66,12 @@ function Library() {
                     cursor: 'pointer',
                     backgroundColor: nowPlaying?.id === track.id ? '#333' : 'transparent',
                   }}
-                  onClick={() => setNowPlaying(track)}
+                  onClick={() => {
+                    setNowPlaying(track)
+                    onSelectTrack?.(track)
+                  }}
                 >
-                  <p>{track.title} - {track.artist}</p>
-                  {nowPlaying?.id === track.id && (
-                    <audio controls autoPlay style={{ width: '100%' }}>
-                      <source src={track.url} type="audio/mpeg" />
-                      Your browser does not support the audio element.
-                    </audio>
-                  )}
+                  <p>{track.title}</p>
                 </div>
               ))
             ) : (

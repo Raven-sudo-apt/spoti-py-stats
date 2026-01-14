@@ -10,7 +10,7 @@ const navigate = useNavigate();
   const checkAuth = async () => {
     try {
       const response = await axios.get('http://localhost:8000/user/me', {
-        withCredentials: true
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
       setIsAuthenticated(true);
       setLoading(false);

@@ -1,14 +1,15 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import '../styles/home.css'
 import '../styles/modal.css'
 import { useAuth } from '../context/AuthContext.jsx'
 import Library from './Library.jsx'
-import addToLibrary from './addToLibrary.jsx'
-import nowPlaying from './nowPlaying.jsx'
+import AddToLibrary from './addToLibrary.jsx'
+import NowPlayingInfo from './nowPlayingInfo.jsx'
 
 
 function AuthUserHome() {
   const { user, loading, error, makeshiftNavbar } = useAuth()
+  const [nowPlaying, setNowPlaying] = useState(null)
 
 
   useEffect(() => {
@@ -24,15 +25,12 @@ function AuthUserHome() {
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
       <div className='homebody'>
-
-        {Library()}
-        {addToLibrary()}
-        {nowPlaying()}
-        </div>
+        <Library onSelectTrack={setNowPlaying} />
+        <AddToLibrary />
+        <NowPlayingInfo track={nowPlaying} />
+      </div>
         
         <div className='footer'>
-          <div className='playingTrack'>
-          </div>
         </div>
       </div>
   )

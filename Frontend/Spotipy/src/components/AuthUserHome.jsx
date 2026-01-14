@@ -11,6 +11,10 @@ function AuthUserHome() {
   const { user, loading, error, makeshiftNavbar } = useAuth()
   const [nowPlaying, setNowPlaying] = useState(null)
 
+  const handleSelectTrack = (track) => {
+    setNowPlaying(track)
+  }
+
 
   useEffect(() => {
     if (user) {
@@ -25,7 +29,7 @@ function AuthUserHome() {
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
       <div className='homebody'>
-        <Library onSelectTrack={setNowPlaying} />
+        <Library onSelectTrack={handleSelectTrack} />
         <AddToLibrary />
         <NowPlayingInfo track={nowPlaying} />
       </div>

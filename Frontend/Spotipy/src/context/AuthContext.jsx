@@ -73,7 +73,7 @@ export function AuthProvider({ children }) {
       const response = await axios.post('http://localhost:8000/user/signup', payload)
       return response.data
     } catch (err) {
-      setError(err.response?.data?.message || 'Signup failed')
+      setError(err.message || 'Signup failed')
       throw err
     } finally {
       setLoading(false)
@@ -118,6 +118,7 @@ export function AuthProvider({ children }) {
             <img id="logo" src="../../src/assets/spotipy.png" alt="Spoti.py Logo" />
           </div>
         </div>
+        <div>{user && <p>Logged in as <Link to={`/user/me`}>{user.username}</Link></p>}</div>
         <div title={user ? user.username : ''} id="profilesection">
           {loadProfilePicture()}
 
@@ -136,7 +137,6 @@ export function AuthProvider({ children }) {
         </button>
       )
     }
-    return <div>{user && <p>Logged in as <Link to={`/user/me`}>{user.username}</Link></p>}</div>
   }
 
   return (

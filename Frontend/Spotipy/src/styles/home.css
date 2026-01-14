@@ -87,7 +87,6 @@ body{
     box-shadow: #131102 0px 4px 8px;
     transform: scaleY(1.02);
     transition: all 0.3s ease;
-    scrollbar-gutter: stable;
 }
 
 .libraryHeader{
@@ -175,13 +174,16 @@ body{
     border-radius: 12px;
     gap: 10px;
     margin-bottom: 20px;
+    transition: all 0.3s ease;
+    
 }
 .nowPlayingInfo{
     display: flex;
     flex-direction: column;
     overflow: scroll;
     gap: 15px;
-    padding: 10px   ;
+    padding: 10px;
+    transition: all 0.3s ease;
 }
 .footer{
     position: fixed;
@@ -206,6 +208,7 @@ body{
     gap: 15px;
     bottom: 0;
     z-index: 1000;
+    transition: all 0.3s ease;
 }
 input {
     width: 250px;

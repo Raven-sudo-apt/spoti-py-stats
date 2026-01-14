@@ -50,8 +50,8 @@ function UploadTrack({ onClose }) {
 
                 <h2>Add New Track</h2>
                 <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                <input type="text" value= {trackTitle} onChange= {(e) => setTrackTitle(e.target.value)} placeholder="Track Title (Optional)" />
-                <input type="text" value= {artistName} onChange= {(e) => setArtistName(e.target.value)} placeholder="Artist Name (Optional)" /> 
+                <input type="text" value= {data.trackTitle} onChange= {(e) => setData({ ...data, trackTitle: e.target.value })} placeholder="Track Title (Optional)" />
+                <input type="text" value= {data.artistName} onChange= {(e) => setData({ ...data, artistName: e.target.value })} placeholder="Artist Name (Optional)" /> 
                 <label htmlFor='track'>Choose File</label>
                 <input className="fileInput" onClick={() => setLocalError(null)} type="file" name="track" id="track" onChange={handleChange} accept="audio/*" required />
                 {data.track && <p>Selected File: {data.track.name}</p>}

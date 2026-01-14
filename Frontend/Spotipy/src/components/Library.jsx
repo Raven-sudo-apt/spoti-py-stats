@@ -67,8 +67,13 @@ function Library({ onSelectTrack }) {
                     backgroundColor: nowPlaying?.id === track.id ? '#333' : 'transparent',
                   }}
                   onClick={() => {
+                    console.log('Track clicked:', track)
+                    console.log('onSelectTrack function:', onSelectTrack)
                     setNowPlaying(track)
-                    onSelectTrack?.(track)
+                    if (onSelectTrack) {
+                      console.log('Calling onSelectTrack with:', track)
+                      onSelectTrack(track)
+                    }
                   }}
                 >
                   <p>{track.title}</p>

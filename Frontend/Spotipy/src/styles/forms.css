@@ -3,7 +3,7 @@
     height: 50px;
     border-radius: 25px;
     border: none;
-    background-color: #1db954;
+    background-color: #05723f;
     color: white;
     font-size: 18px;
     font-weight: bold;
@@ -15,7 +15,7 @@
     transition: all 0.3s ease-in-out; 
 }
 .logbtn:hover{
-    background-color: #1fe264;
+    background-color: #006946;
     transform: scale(1.05);
     transition: all 0.3s ease-in-out;   
 }

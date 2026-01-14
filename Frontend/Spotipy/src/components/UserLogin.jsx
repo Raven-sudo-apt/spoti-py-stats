@@ -1,35 +1,27 @@
-import axios from 'axios';
-import React, {use, useState} from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
 
 function UserLogin() {
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [message, setMessage] = useState(null);
-  const navigate = useNavigate();
+  const [error, setError] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [message, setMessage] = useState(null)
+  const { login } = useAuth()
 
   async function handleSubmit(event) {
-    event.preventDefault();
+    event.preventDefault()
+    setError(null)
     try {
-      setLoading(true);
-      const response = await axios.post('http://localhost:8000/user/login', {
-        "email": email,
-        "password": password,
-      }, { withCredentials: true });
-      setMessage(response.data.message);
-      setLoading(false);
-      setTimeout(() => {
-      navigate('/home');}, 500);
+      setLoading(true)
+      const response = await login(email, password)
+      setMessage(response.message)
     } catch (err) {
-      setError("Invalid email or password, please try again.");
-      setLoading(false);
-      return <div>
-        <p>{err.message}</p>
-      </div>
+      setError('Invalid email or password, please try again.')
+    } finally {
+      setLoading(false)
     }
-    
   }
       
   return (

@@ -27,12 +27,14 @@ const navigate = useNavigate();
       
   return (
     <div>
-        <div className="homelogo" style={{display: "flex", gap: "20px", alignItems: "center"}}>
-        <Link to="/"><img id="logo" src="../../src/assets/spotipy.png" alt="Spoti.py Logo" /></Link>
+        <div className='makeshiftnavbar'>
+          <div className="homelogo" style={{display: "flex", gap: "20px", alignItems: "center"}}>
+          <Link to="/"><img id="logo" src="../../src/assets/spotipy.png" alt="Spoti.py Logo" /></Link>
+          </div>
         </div>
         <p>Your ultimate music streaming experience.</p>
         <br />
-        <div className='homebody'>
+        <div style={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
         {/* <img id='homeimage' src="../../src/assets/headphones.jpg" alt="Girl with Headphones" /> */}
         <p>Stream music and connect with your friends like never before</p>
         <p>New here?</p><Link to="/user/signup"><div className='logbtn'>Sign Up</div></Link>

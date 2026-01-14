@@ -63,3 +63,27 @@
     transform: scale(1.05);
     transition: all 0.3s ease-in-out;   
 }
+.fileInput {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #1db954;
+    background-color: #f0f0f0;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out; 
+    margin-bottom: 15px;
+}
+label:hover {
+    background-color: #e0e0e0;
+    transform: scale(1.05);
+    transition: all 0.3s ease-in-out;   
+}

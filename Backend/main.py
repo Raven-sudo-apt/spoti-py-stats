@@ -6,20 +6,24 @@ from fastapi.middleware.cors import CORSMiddleware
 load_dotenv()
 
 app = FastAPI()
-app.include_router(user_router, prefix="/user", tags=["users"])
-app.include_router(track_router, prefix="/track", tags=["tracks"])
 
 
-origins= [
+
+origins = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
+    "https://localhost:5173",
+    "https://127.0.0.1:5173",
 ]
-    
 
 app.add_middleware(
-    CORSMiddleware,   
-    allow_origins=origins, 
-    allow_credentials=True,        
-    allow_methods=["*"],  
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_origin_regex=r"https?://(localhost|127\.0\.0\.1):5173",
+    allow_credentials=True,
+    allow_methods=["*"],
     allow_headers=["*"],
+    expose_headers=["*"],
 )
+app.include_router(user_router, prefix="/user", tags=["users"])
+app.include_router(track_router, prefix="/track", tags=["tracks"])

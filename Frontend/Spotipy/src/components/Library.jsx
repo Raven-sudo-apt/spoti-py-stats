@@ -7,7 +7,8 @@ function Library() {
   const [tracks, setTracks] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
-  const { nowPlaying, setNowPlaying } = useAuth()
+  const [nowPlaying, setNowPlaying] = useState(null)
+  
 
   useEffect(() => {
     if (!token) return
@@ -66,7 +67,7 @@ function Library() {
                   }}
                   onClick={() => setNowPlaying(track)}
                 >
-                  <p>{track.title} {track.artist_name && `by ${track.artist_name}`}</p>
+                  <p>{track.title} - {track.artist}</p>
                   {nowPlaying?.id === track.id && (
                     <audio controls autoPlay style={{ width: '100%' }}>
                       <source src={track.url} type="audio/mpeg" />

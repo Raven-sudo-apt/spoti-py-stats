@@ -6,29 +6,19 @@ from db import engine, get_db
 from Routes.auth_helper import get_user
 from models.Tracks import Track
 from models.Users import User
+from Routes.auth_helper import s3_client
 
 track_router = APIRouter()
-
-def get_presigned_url(filename: str, expiration: int = 3600) -> str:
-    s3_client = boto3.client('s3')
-    bucket_name = 'spotipy-files'
-
-    
-    url= s3_client.generate_presigned_url(
-        'get_object',
-        Params={'Bucket': bucket_name, 'Key': filename},
-        ExpiresIn=expiration
-    )
-    return url
+from Routes.auth_helper import get_presigned_url
     
 @track_router.post("/upload/")
 async def upload_track(track_file: UploadFile = File(), db: Session = Depends(get_db), uploader: User = Depends(get_user)):
-    S3client = boto3.client("s3")
+    
     
     splitted_filename = track_file.filename.split(".")
     file_extension = splitted_filename[-1]
     new_filename = f"public/tracks/{str(uuid.uuid4())}.{file_extension}"
-    S3client.upload_fileobj(track_file.file, "spotipy-files", new_filename, ExtraArgs={"ContentType": file_extension})
+    s3_client.upload_fileobj(track_file.file, "spotipy-files", new_filename, ExtraArgs={"ContentType": file_extension})
     
     track = Track(
         filename=new_filename,

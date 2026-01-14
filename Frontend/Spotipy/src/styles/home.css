@@ -87,6 +87,7 @@ body{
     box-shadow: #131102 0px 4px 8px;
     transform: scaleY(1.02);
     transition: all 0.3s ease;
+    scrollbar-gutter: stable;
 }
 
 .libraryHeader{

@@ -3,11 +3,14 @@ from Routes.usersRoute import user_router
 from Routes.tracksRoute import track_router
 from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
+from sqlmodel import SQLModel
+from db import engine
 load_dotenv()
 
 app = FastAPI()
 
 
+SQLModel.metadata.create_all(engine)
 
 origins = [
     "http://localhost:5173",
@@ -19,7 +22,6 @@ origins = [
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
-    allow_origin_regex=r"https?://(localhost|127\.0\.0\.1):5173",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

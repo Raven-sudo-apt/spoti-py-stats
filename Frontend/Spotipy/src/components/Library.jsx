@@ -7,6 +7,7 @@ function Library() {
   const [tracks, setTracks] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
+  const { nowPlaying, setNowPlaying } = useAuth()
 
   useEffect(() => {
     if (!token) return
@@ -18,6 +19,7 @@ function Library() {
         const response = await axios.get('http://localhost:8000/track/my-tracks/', {
           headers: { Authorization: `Bearer ${token}` },
         })
+        console.log(response.data)
         setTracks(response.data.tracks)
       } catch (err) {
         setError('Failed to load tracks')
@@ -50,12 +52,28 @@ function Library() {
         </div>
         <div><h3>| Tracks</h3>
           <div>
-            {loading && <p>Loading tracks...</p>}
+          {loading && <p>Loading tracks...</p>}
+            {error && <p style={{ color: 'red' }}>{error}</p>}
             {tracks && tracks.length > 0 ? (
               tracks.map((track) => (
-                <ul key={track.id} style={{ padding: '10px', borderBottom: '1px solid #333', cursor: 'pointer' }}>
-                  <li>{track.title} {track.artist_name && `by ${track.artist_name}`}</li>
-                </ul>
+                <div
+                  key={track.id}
+                  style={{
+                    padding: '10px',
+                    borderBottom: '1px solid #333',
+                    cursor: 'pointer',
+                    backgroundColor: nowPlaying?.id === track.id ? '#333' : 'transparent',
+                  }}
+                  onClick={() => setNowPlaying(track)}
+                >
+                  <p>{track.title} {track.artist_name && `by ${track.artist_name}`}</p>
+                  {nowPlaying?.id === track.id && (
+                    <audio controls autoPlay style={{ width: '100%' }}>
+                      <source src={track.url} type="audio/mpeg" />
+                      Your browser does not support the audio element.
+                    </audio>
+                  )}
+                </div>
               ))
             ) : (
               !loading && <p>No tracks found. Upload one to get started!</p>
@@ -66,5 +84,4 @@ function Library() {
     </div>
   )
 }
-
 export default Library

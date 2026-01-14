@@ -20,6 +20,7 @@ def get_presigned_url(filename: str, expiration: int = 3600) -> str:
         ExpiresIn=expiration
     )
     return url
+    
 @track_router.post("/upload/")
 async def upload_track(track_file: UploadFile = File(), db: Session = Depends(get_db), uploader: User = Depends(get_user)):
     S3client = boto3.client("s3")
@@ -43,13 +44,25 @@ async def upload_track(track_file: UploadFile = File(), db: Session = Depends(ge
 async def list_tracks(db: Session = Depends(get_db)):
     """Get all tracks from database"""
     tracks = db.exec(select(Track)).all()
-    return {"tracks": [{"id": str(t.id), "title": t.title, "artist_name": t.artist_name, "filename": t.filename, "owner_id": str(t.owner_id)} for t in tracks]}
+    return {"tracks": [{"id": str(t.id), "title": t.title, "artist_name": t.artist_name, "filename": t.filename, "url": get_presigned_url(t.filename), "owner_id": str(t.owner_id)} for t in tracks]}
 
 @track_router.get("/my-tracks/")
 async def get_my_tracks(db: Session = Depends(get_db), user: User = Depends(get_user)):
     """Get current user's uploaded tracks"""
     tracks = db.exec(select(Track).where(Track.owner_id == user.id)).all()
-    return {"tracks": [{"id": str(t.id), "title": t.title, "artist_name": t.artist_name, "filename": t.filename, "created_at": t.created_at} for t in tracks]}
+    return {
+        "tracks": [
+            {
+                "id": str(t.id),
+                "title": t.title if hasattr(t, 'title') else "Unknown",
+                "artist_name": t.artist_name if hasattr(t, 'artist_name') else "",
+                "filename": t.filename,
+                "url": get_presigned_url(t.filename),
+                "created_at": str(t.created_at),
+            }
+            for t in tracks
+        ]
+    }
 
 # @track_router.put("/{track_id}")
 # async def update_track(track_id: str):

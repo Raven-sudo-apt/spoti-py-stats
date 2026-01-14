@@ -5,6 +5,7 @@ from datetime import datetime
 
 class TrackCreate(SQLModel):
     title: Optional[str] = None
+    filename: Optional[str] = None
     # artist_name: Optional[str] = None
     # album_title: Optional[str] = None
     # duration_seconds: Optional[int] = None

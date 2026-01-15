@@ -57,8 +57,9 @@ function Library({ onSelectTrack }) {
             {error && <p style={{ color: 'red' }}>{error}</p>}
             <ul>
             {tracks && tracks.length > 0 ? (
-              tracks.map((track) => ( <div>
-                <li className='libraryItem'
+              tracks.map((track, idx) => (
+                <li
+                  className='libraryItem'
                   key={track.id}
                   style={{
                     backgroundColor: nowPlaying?.id === track.id ? '#00352c' : '',
@@ -66,13 +67,12 @@ function Library({ onSelectTrack }) {
                   onClick={() => {
                     setNowPlaying(track)
                     if (onSelectTrack) {
-                      onSelectTrack(track)
+                      onSelectTrack(track, idx, tracks) // pass index so player can auto-advance
                     }
                   }}
                 >
-                  <div >{track.title}</div>
+                  <div>{track.title}</div>
                 </li>
-                </div>
               ))
             ) : (
               !loading && <p>No tracks found. Upload one to get started!</p>

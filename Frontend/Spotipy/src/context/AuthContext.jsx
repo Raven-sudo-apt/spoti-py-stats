@@ -105,7 +105,7 @@ export function AuthProvider({ children }) {
             <img id="logo" src="../../src/assets/spotipy.png" alt="Spoti.py Logo" />
           </Link>
         </div>
-        <div style={{marginTop: "10px"}}>{user && <p>Logged in as <Link to={`/user/me`}>{user.username}</Link></p>}</div>
+        <div style={{marginTop: "10px"}}>{user && <p>Logged in as <Link target="_blank" to={`/user/me`}>{user.username}</Link></p>}</div>
         </div>
         <div title={user ? user.username : ''} id="profilesection">
           {loadProfilePicture()}

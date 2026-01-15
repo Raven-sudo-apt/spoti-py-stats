@@ -13,7 +13,10 @@ track_router = APIRouter()
 @track_router.post("/upload/")
 async def upload_track(track_file: UploadFile = File(), db: Session = Depends(get_db), uploader: User = Depends(get_user)):
     
-    
+    with Session(engine) as session:
+        existing_track = session.exec(select(Track).where(Track.filename == track_file.filename)).first()
+        if existing_track:
+            return {"message": "Track already exists"}
     splitted_filename = track_file.filename.split(".")
     file_extension = splitted_filename[-1]
     new_filename = f"public/tracks/{str(uuid.uuid4())}.{file_extension}"
@@ -55,9 +58,15 @@ async def get_my_tracks(db: Session = Depends(get_db), user: User = Depends(get_
 # async def update_track(track_id: str):
 #     return {"message": f"Update track with ID {track_id}"}
 
-# @track_router.delete("/{track_id}")
-# async def delete_track(track_id: str):
-#     return {"message": f"Delete track with ID {track_id}"}
+@track_router.delete("/{track_id}")
+async def delete_track(track_id: str):
+    with Session(engine) as session:
+        track = session.get(Track, track_id)
+        if not track:
+            return {"message": "Track not found"}
+        session.delete(track)
+        session.commit()
+    return {"message": "Track deleted successfully"}
 
 # @track_router.get("/stream/{track_id}")
 # async def stream_track(track_id: str):

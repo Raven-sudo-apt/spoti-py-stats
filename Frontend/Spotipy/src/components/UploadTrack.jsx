@@ -9,8 +9,8 @@ function UploadTrack({ onClose }) {
     const [localError, setLocalError] = useState(null)
 
     const handleChange = (event) => {
-        const { files, trackTitle, artistName } = event.target
-        setData({ track: files[0], trackTitle: trackTitle, artistName: artistName })
+        const { files } = event.target
+        setData({ track: files[0] })
     }
 
     const handleUpload = async (event) => {
@@ -25,8 +25,6 @@ function UploadTrack({ onClose }) {
         try {
             const form = new FormData()
             form.append('track_file', data.track)
-            form.append('track_title', data.trackTitle)
-            form.append('artist_name', data.artistName)
 
             await axios.post('http://localhost:8000/track/upload/', form, {
                 withCredentials: true,
@@ -46,17 +44,15 @@ function UploadTrack({ onClose }) {
             <form className='ModalConfirm' onSubmit={handleUpload}>
 
                 <h2>Add New Track</h2>
-                <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                <input type="text" value= {data.trackTitle} onChange= {(e) => setData({ ...data, trackTitle: e.target.value })} placeholder="Track Title (Optional)" />
-                <input type="text" value= {data.artistName} onChange= {(e) => setData({ ...data, artistName: e.target.value })} placeholder="Artist Name (Optional)" /> 
+                <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}> 
                 <label htmlFor='track'>Choose File</label>
                 <input className="fileInput" onClick={() => setLocalError(null)} type="file" name="track" id="track" onChange={handleChange} accept="audio/*" required />
                 {data.track && <p>Selected File: {data.track.name}</p>}
                 </div>
                 {(localError || error) && <p style={{ color: 'red' }}>Error: {localError || error}</p>}
                 <div style={{ display: "flex", gap: "10px", justifyContent: "center", marginTop: "20px" }}>
-                    <button className='logbtn' type="submit" disabled={uploading || loading}>{uploading ? "Uploading..." : "Upload"}</button>
-                    <button className='logbtn' type="button" onClick={onClose}>Cancel</button>
+                    <button id='ConfirmButton' type="submit" disabled={uploading || loading}>{uploading ? "Uploading..." : "Upload"}</button>
+                    <button id='CancelButton' type="button" onClick={onClose}>Cancel</button>
                 </div>
             </form>
 

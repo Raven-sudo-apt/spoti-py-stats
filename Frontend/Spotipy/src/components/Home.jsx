@@ -27,8 +27,9 @@ const navigate = useNavigate();
       
   return (
     <div>
-        <div className='makeshiftnavbar'>
-          <div className="homelogo">
+      <div>
+        <img id='homeimage' style={{top: "0"}} src="../../src/assets/headphones.jpg" alt="Girl with Headphones" />
+          <div className="homelogo" style={{position: "relative"}}>
           <div>
             <img id="logo" src="../../src/assets/spotipy.png" alt="Spoti.py Logo" />
           </div>
@@ -36,9 +37,8 @@ const navigate = useNavigate();
         </div>
         <p>Your ultimate music streaming experience.</p>
         <br />
-        <div style={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
-        {/* <img id='homeimage' src="../../src/assets/headphones.jpg" alt="Girl with Headphones" /> */}
-        <p>Stream music and connect with your friends like never before</p>
+        
+        <div style={{position: "relative", flexDirection: "column", display: "flex", justifyContent: "center", alignItems: "center"}}>
         <p>New here?</p><Link to="/user/signup"><div className='logbtn'>Sign Up</div></Link>
         <p>Or if you have an account already,</p> <Link to="/user/login"><div className='logbtn'>Log In</div></Link><p/>
         </div>

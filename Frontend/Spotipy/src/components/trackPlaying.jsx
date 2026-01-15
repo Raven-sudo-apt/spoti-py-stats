@@ -1,13 +1,16 @@
 import React from 'react'
 
 function TrackPlaying({ title, url }) {
-  return (
+  const handleEnded = () => {
+    console.log('Track ended')
+  }
+    return (
     <div>
       <div className='TrackInfo'>
           <h3>Playing:</h3>
           <h4>{title}</h4>
         </div>
-      <audio controls autoPlay={true} key={url} style={{ width: '100%' }}>
+      <audio onEnded={() => handleEnded} controls autoPlay={true} key={url} style={{ width: '100%' }}>
         <source src={url} type="audio/mpeg" />
       </audio>
     </div>

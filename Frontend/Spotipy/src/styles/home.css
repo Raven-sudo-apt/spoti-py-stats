@@ -66,8 +66,8 @@ a{
 }
 #homeimage{
     width: 100%;
-    max-width: 500px;
-    position: relative;
+    height: 100%;
+    position: absolute;
 }
 .goHome{
     display: flex;
@@ -187,6 +187,20 @@ ul, li {
     transition: all 0.3s ease;
 }
 .addTrack:hover{
+    transform: scale(1.05);
+    transition: all 0.3s ease;
+}
+.DeleteButton{
+    border-radius: 12px;
+    padding: 10px 20px;
+    background-color: #b30000;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.DeleteButton:hover{
+    background-color: #ff0000;
     transform: scale(1.05);
     transition: all 0.3s ease;
 }

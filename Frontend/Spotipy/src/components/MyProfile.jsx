@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext.jsx'
 import { useNavigate } from 'react-router-dom'
 
 function MyProfile() {
-  const { user, loading, error, logout, navigate } = useAuth()
+  const { user, loading, error, logout, navigate, makeshiftNavbar } = useAuth()
   if (user) {
     document.title = `Spoti.py - ${user.username}'s Profile`
   }
@@ -13,14 +13,11 @@ function MyProfile() {
   return (
     <div>
     <div>
+    {makeshiftNavbar()}
     {loading && <p>Loading...</p>}
     {error && <p style={{ color: 'red' }}>{error}</p>}
-    <div className="homelogo" style={{display: "flex", gap: "20px", alignItems: "center"}}>
-    <Link to="/"><img id="logo" src="../../src/assets/spotipy.png" alt="Spoti.py Logo" /></Link>
-    </div>
-    </div>
-
     
+    </div>
     <div className='profileContainer'>
     <div><h2>{user?.username}'s Profile</h2></div>
     <div><p>Joined: {Joined}</p></div>
@@ -31,7 +28,7 @@ function MyProfile() {
         <img src={user.profile_picture} alt="Profile" style={{ width: '150px', height: '150px', borderRadius: '50%' }} />
         </div>
         <div>
-        <button className="logbtn" onClick={() => navigate('/settings')}>Settings</button>
+        <button className="logbtn" onClick={() => navigate('user/settings')}>Settings</button>
         </div>
       </div>
 
@@ -42,10 +39,6 @@ function MyProfile() {
         </div>
         
       )}
-    </div>
-
-    <div>
-      <button className='logbtn' onClick={logout} style={{ padding: '10px 20px', cursor: 'pointer' }}>Logout</button>
     </div>
     </div>
     </div>

@@ -28,9 +28,11 @@ const navigate = useNavigate();
   return (
     <div>
         <div className='makeshiftnavbar'>
-          <div className="homelogo" style={{display: "flex", gap: "20px", alignItems: "center"}}>
-          <Link to="/"><img id="logo" src="../../src/assets/spotipy.png" alt="Spoti.py Logo" /></Link>
+          <div className="homelogo">
+          <div>
+            <img id="logo" src="../../src/assets/spotipy.png" alt="Spoti.py Logo" />
           </div>
+        </div>
         </div>
         <p>Your ultimate music streaming experience.</p>
         <br />

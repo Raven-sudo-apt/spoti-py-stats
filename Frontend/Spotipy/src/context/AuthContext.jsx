@@ -99,12 +99,14 @@ export function AuthProvider({ children }) {
   function makeshiftNavbar() {
     return (
       <div id="makeshiftnavbar">
+        <div style={{display: "flex", alignItems: "center", gap: "20px"}}>
         <div className="homelogo">
-          <div>
+          <Link to='/home'>
             <img id="logo" src="../../src/assets/spotipy.png" alt="Spoti.py Logo" />
-          </div>
+          </Link>
         </div>
-        <div>{user && <p>Logged in as <Link to={`/user/me`}>{user.username}</Link></p>}</div>
+        <div style={{marginTop: "10px"}}>{user && <p>Logged in as <Link to={`/user/me`}>{user.username}</Link></p>}</div>
+        </div>
         <div title={user ? user.username : ''} id="profilesection">
           {loadProfilePicture()}
 

@@ -61,7 +61,7 @@ function Library({ onSelectTrack }) {
                 <li className='libraryItem'
                   key={track.id}
                   style={{
-                    backgroundColor: nowPlaying?.id === track.id ? '#00352c' : 'transparent'
+                    backgroundColor: nowPlaying?.id === track.id ? '#00352c' : '',
                   }}
                   onClick={() => {
                     setNowPlaying(track)

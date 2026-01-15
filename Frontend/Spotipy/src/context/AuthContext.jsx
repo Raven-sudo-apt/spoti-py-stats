@@ -6,7 +6,6 @@ const AuthContext = createContext()
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
-  const [token, setToken] = useState(() => localStorage.getItem('token'))
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [confirmLogout, setConfirmLogout] = useState(false)
@@ -14,31 +13,22 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const verifyAuth = async () => {
-      if (!token) {
-        setUser(null)
-        setLoading(false)
-        return
-      }
-
       try {
         const response = await axios.get('http://localhost:8000/user/me', {
-          headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true,
         })
         setError(null)
         setUser(response.data)
       } catch (err) {
-        setError(`${err.message} Redirecting to login...`)
-        localStorage.removeItem('token')
-        setToken(null)
+        setError(null)
         setUser(null)
-        navigate('/user/login')
       } finally {
         setLoading(false)
       }
     }
 
     verifyAuth()
-  }, [navigate, token])
+  }, [navigate])
 
   const login = async (email, password) => {
     setLoading(true)
@@ -48,13 +38,10 @@ export function AuthProvider({ children }) {
       const response = await axios.post('http://localhost:8000/user/login', {
         email,
         password,
+      }, {
+        withCredentials: true,
       })
 
-      const receivedToken = response.data.token
-      if (receivedToken) {
-        localStorage.setItem('token', receivedToken)
-        setToken(receivedToken)
-      }
       setUser(response.data.user)
       navigate('/home')
       return response.data
@@ -89,8 +76,7 @@ export function AuthProvider({ children }) {
   }
 
   const logout = () => {
-    localStorage.removeItem('token')
-    setToken(null)
+    document.cookie = "jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
     setUser(null)
     navigate('/')
   }
@@ -143,7 +129,6 @@ export function AuthProvider({ children }) {
     <AuthContext.Provider
       value={{
         user,
-        token,
         loading,
         error,
         navigate,

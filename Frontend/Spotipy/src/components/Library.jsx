@@ -12,14 +12,12 @@ function Library({ onSelectTrack }) {
   
 
   useEffect(() => {
-    if (!token) return
-
     const fetchTracks = async () => {
       setLoading(true)
       setError(null)
       try {
         const response = await axios.get('http://localhost:8000/track/my-tracks/', {
-          headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true,
         })
         console.log(response.data)
         setTracks(response.data.tracks)
@@ -32,7 +30,7 @@ function Library({ onSelectTrack }) {
     }
 
     fetchTracks()
-  }, [token])
+  }, [])
   
   return (
     <div className='library'>
@@ -54,34 +52,33 @@ function Library({ onSelectTrack }) {
         </div>
         <div><h3>| Tracks</h3>
           <div>
+
           {loading && <p>Loading tracks...</p>}
             {error && <p style={{ color: 'red' }}>{error}</p>}
+            <ul>
             {tracks && tracks.length > 0 ? (
-              tracks.map((track) => (
-                <div
+              tracks.map((track) => ( <div>
+                <li className='libraryItem'
                   key={track.id}
                   style={{
-                    padding: '10px',
-                    borderBottom: '1px solid #333',
-                    cursor: 'pointer',
-                    backgroundColor: nowPlaying?.id === track.id ? '#333' : 'transparent',
+                    backgroundColor: nowPlaying?.id === track.id ? '#00352c' : 'transparent'
                   }}
                   onClick={() => {
-                    console.log('Track clicked:', track)
-                    console.log('onSelectTrack function:', onSelectTrack)
                     setNowPlaying(track)
                     if (onSelectTrack) {
-                      console.log('Calling onSelectTrack with:', track)
                       onSelectTrack(track)
                     }
                   }}
                 >
-                  <p>{track.title}</p>
+                  <div >{track.title}</div>
+                </li>
                 </div>
               ))
             ) : (
               !loading && <p>No tracks found. Upload one to get started!</p>
+              
             )}
+            </ul>
           </div>
         </div>
       </div>

@@ -5,10 +5,13 @@ html{
     height: 100%;
     background: linear-gradient(135deg, #1d1b01, #05723f);
     color: white;
+    overflow: hidden;
 }
 body, #root{
     margin: 0;
     padding: 0;
+    height: 100%;
+    overflow: hidden;
 }
 
 #makeshiftnavbar{
@@ -103,9 +106,23 @@ body{
 .libraryItems{
     display: flex;
     flex-direction: column;
-    overflow: scroll;
-    gap: 15px;
-    padding: 10px   ;
+    overflow-y: scroll;
+    height: 100%;
+    gap: 15px;      
+    padding: 10px;
+}
+.libraryItem{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 12px;
+    padding: 8px;
+}
+ul, li {
+    margin-left: 0;
+    padding-left: 0;
+    list-style-type: none;
 }
 .addToLibrary{
     display: flex;

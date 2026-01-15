@@ -3,7 +3,7 @@ import { useAuth } from '../context/AuthContext'
 import axios from 'axios'
 
 function UploadTrack({ onClose }) {
-    const { token, loading, error } = useAuth()
+    const { loading, error } = useAuth()
     const [data, setData] = useState( { track: null } )
     const [uploading, setUploading] = useState(false)
     const [localError, setLocalError] = useState(null)
@@ -22,7 +22,6 @@ function UploadTrack({ onClose }) {
 
         setUploading(true)
         setLocalError(null)
-        console.log(token)
         try {
             const form = new FormData()
             form.append('track_file', data.track)
@@ -30,9 +29,7 @@ function UploadTrack({ onClose }) {
             form.append('artist_name', data.artistName)
 
             await axios.post('http://localhost:8000/track/upload/', form, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
+                withCredentials: true,
             })
 
             setData({ track: null })

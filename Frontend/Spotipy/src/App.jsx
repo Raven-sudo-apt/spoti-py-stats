@@ -1,6 +1,5 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext.jsx';
 import Home from './components/Home.jsx';
 import UserSignUp from './components/UserSignUp.jsx';
 import UserLogin from './components/UserLogin.jsx';
@@ -16,16 +15,14 @@ import './styles/profile.css';
 function App(){
 
     return (
-        <AuthProvider>
-            <Routes>
-                <Route path='/' Component={Home} />
-                <Route path="/user/login" Component={UserLogin} />
-                <Route path="/user/signup" Component={UserSignUp} />
-                <Route path="/home" Component={AuthUserHome} />
-                <Route path="*" Component={notFound} />
-                <Route path='/user/:id' Component={MyProfile} />
-            </Routes>
-        </AuthProvider>
+        <Routes>
+            <Route path='/' Component={Home} />
+            <Route path="/user/login" Component={UserLogin} />
+            <Route path="/user/signup" Component={UserSignUp} />
+            <Route path="/home" Component={AuthUserHome} />
+            <Route path="*" Component={notFound} />
+            <Route path='/user/:id' Component={MyProfile} />
+        </Routes>
     );
 }
 export default App;

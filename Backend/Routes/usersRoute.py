@@ -47,16 +47,30 @@ def login_user(login_req: UserLogin):
         payload = {"sub": str(user.id), "exp": expire}
         token = jwt_lib.encode(payload, secret_key, algorithm="HS256")
 
-        return {
-            "message": "Login successful",
-            "token": token,
-            "user": {
-                "id": str(user.id),
-                "username": user.username,
-                "email": user.email,
-                "profile_picture": user.profile_picture,
-            },
-        }
+        response = JSONResponse(
+            status_code=200,
+            content={
+                "message": "Login successful",
+                "user": {
+                    "id": str(user.id),
+                    "username": user.username,
+                    "email": user.email,
+                    "profile_picture": user.profile_picture,
+                },
+            }
+        )
+        response.set_cookie(
+            key="jwt",
+            value=token,
+            httponly=False,
+            samesite="lax",
+            max_age=None,
+            path="/",
+            domain=None,
+            partitioned=False,
+            expires=expire
+        )
+        return response
          
 @user_router.get("/me")
 async def get_current_user(current_user: User = Depends(get_user)):

@@ -6,10 +6,6 @@ function addToLibrary() {
   const [showCreatePlaylist, setShowCreatePlaylist] = useState(false);
   return (
     <div className='addToLibrary'>
-          <button onClick={() => setShowCreatePlaylist(true)} className='createPlaylist'>
-            <div><img style={{ width: "100px" }} src="../../src/assets/add.png" /></div>
-            <h3>Create New Playlist</h3>
-          </button>
         <button onClick={() => setShowUploadTrack(true)} className='addTrack'>
             <div><img style={{ width: "100px" }} src="../../src/assets/add.png" /></div>
             <h3>Add New Track</h3>

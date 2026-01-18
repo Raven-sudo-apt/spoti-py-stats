@@ -11,6 +11,7 @@ function UploadTrack({ onClose }) {
     const handleChange = (event) => {
         const { files } = event.target
         setData({ track: files[0] })
+        console.log(files)
     }
 
     const handleUpload = async (event) => {
@@ -29,13 +30,14 @@ function UploadTrack({ onClose }) {
             await axios.post('http://localhost:8000/track/upload/', form, {
                 withCredentials: true,
             })
-
+            
             setData({ track: null })
             onClose()
         } catch (err) {
             setLocalError(err.message || 'Error uploading file')
         } finally {
             setUploading(false)
+            window.location.reload()    
         }
     }
 

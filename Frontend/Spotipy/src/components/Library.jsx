@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useAuth } from '../context/AuthContext.jsx'
 import NowPlayingInfo from './nowPlayingInfo.jsx'
+import DeleteTrack from './DeleteTrack.jsx'
 
 function Library({ onSelectTrack }) {
   const { user, token } = useAuth()
@@ -10,6 +11,14 @@ function Library({ onSelectTrack }) {
   const [error, setError] = useState(null)
   const [nowPlaying, setNowPlaying] = useState(null)
   
+
+  const handleTrackDeleted = (deletedId) => {
+    setTracks((prev) => prev.filter((track) => track.id !== deletedId))
+
+    if (nowPlaying?.id === deletedId) {
+      setNowPlaying(null)
+    }
+  }
 
   useEffect(() => {
     const fetchTracks = async () => {
@@ -39,50 +48,33 @@ function Library({ onSelectTrack }) {
       </div>
       <div className='libraryItems'>
         <div>
-          <h3>| Playlists</h3>
-          {user && user.playlists && user.playlists.length > 0 ? (
-            user.playlists.map((playlist) => (
-              <ul key={playlist.id}>
-                <li>{playlist.name}</li>
-              </ul>
-            ))
-          ) : (
-            <p>No playlists found.</p>
-          )}
-        </div>
-        <div><h3>| Tracks</h3>
-          <div>
-
+          <h3>| Tracks</h3>
           {loading && <p>Loading tracks...</p>}
             {error && <p style={{ color: 'red' }}>{error}</p>}
             <ul>
             {tracks && tracks.length > 0 ? (
-              tracks.map((track, idx) => (
-                <li
-                  className='libraryItem'
-                  key={track.id}
-                  style={{
-                    backgroundColor: nowPlaying?.id === track.id ? '#00352c' : '',
-                  }}
-                  onClick={() => {
-                    setNowPlaying(track)
-                    if (onSelectTrack) {
-                      onSelectTrack(track, idx, tracks) // pass index so player can auto-advance
-                    }
-                  }}
-                >
-                  <div>{track.title}</div>
+              tracks.map((track) => (
+                <li className='libraryItem' key={track.id} style={{ backgroundColor: nowPlaying?.id === track.id ? '#00352c' : '', cursor: 'pointer' }}
+                  onClick={() => { setNowPlaying(track)
+                                  if (onSelectTrack) {
+                                  onSelectTrack(track) }
+                                  }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                    <div>{track.title}</div>
+                    <DeleteTrack
+                      trackId={track.id}
+                      trackTitle={track.title}
+                      onDeleted={handleTrackDeleted}
+                    />
+                  </div>
                 </li>
               ))
-            ) : (
-              !loading && <p>No tracks found. Upload one to get started!</p>
-              
-            )}
+            ) : ( !loading && <p>No tracks found. Upload one to get started!</p> )}
             </ul>
           </div>
         </div>
       </div>
-    </div>
+    
   )
 }
 export default Library

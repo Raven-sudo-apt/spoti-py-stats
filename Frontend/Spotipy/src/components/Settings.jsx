@@ -40,11 +40,14 @@ function SettingsModal(){
     return (
       <div className='ModalBackground'>
         <form className='ModalConfirm' onSubmit={updateUserData()}>
-          <input value={updatedData.username} type="text" placeholder='Username' />
-          <input value={updatedData.email} type="email" placeholder='Email' />
+          <div className='Forminputsdiv'>
+          <input  value={updatedData.username} type="text" placeholder='Username' />
+          <input  value={updatedData.email} type="email" placeholder='Email' />
+          <input  value={updatedData.profile_picture} type="text" placeholder='Profile Picture URL' />
           <div id="buttonContainer">
             <button type='submit'  id='ConfirmButton' >Save Changes</button>
             <button id='CancelButton'  onClick={() => {setShowSettings(false)}}>Close</button>
+            </div>
           </div>
         </form>
       </div>

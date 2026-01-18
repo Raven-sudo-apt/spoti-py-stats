@@ -12,11 +12,8 @@ track_router = APIRouter()
     
 @track_router.post("/upload/")
 async def upload_track(track_file: UploadFile = File(), db: Session = Depends(get_db), uploader: User = Depends(get_user)):
+     
     
-    with Session(engine) as session:
-        existing_track = session.exec(select(Track).where(Track.filename == track_file.filename)).first()
-        if existing_track:
-            return {"message": "Track already exists"}
     splitted_filename = track_file.filename.split(".")
     file_extension = splitted_filename[-1]
     new_filename = f"public/tracks/{str(uuid.uuid4())}.{file_extension}"
@@ -44,8 +41,7 @@ async def get_my_tracks(db: Session = Depends(get_db), user: User = Depends(get_
         "tracks": [
             {
                 "id": str(t.id),
-                "title": t.title if hasattr(t, 'title') else "Unknown",
-                "artist_name": t.artist_name if hasattr(t, 'artist_name') else "",
+                "title": t.title,
                 "filename": t.filename,
                 "url": get_presigned_url(t.filename),
                 "created_at": str(t.created_at),

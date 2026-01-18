@@ -3,7 +3,7 @@ html{
     margin: 0;
     padding: 0;
     height: 100%;
-    background: linear-gradient(135deg, #1d1b01, #05723f);
+    background: linear-gradient(135deg, #00220d, #05723f);
     color: white;
     overflow: hidden;
 }
@@ -64,10 +64,21 @@ a{
     min-height: 0;
     overflow: hidden;
 }
-#homeimage{
+.home-hero{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
-    height: 100%;
+    padding: 30px 0;
     position: absolute;
+    margin-top: 150px;
+}
+#homeimage{
+    max-width: 1000px;
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
 }
 .goHome{
     display: flex;
@@ -80,10 +91,11 @@ a{
     width: 300px;
     margin-left: auto;
     margin-right: auto;
+    margin-top: 20px;
 }
 
 .library {
-    width: 300px;
+    width: 400px;
     height: 100%;
     margin-left: 0;
     border-radius: 12px;
@@ -123,7 +135,7 @@ a{
 
 .libraryItem{
     display: flex;
-    width: 250px;
+    width: 350px;
     align-items: center;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -193,14 +205,14 @@ ul, li {
 .DeleteButton{
     border-radius: 12px;
     padding: 10px 20px;
-    background-color: #b30000;
+    background-color: #ff514b;
     color: white;
     border: none;
     cursor: pointer;
     transition: all 0.3s ease;
 }
 .DeleteButton:hover{
-    background-color: #ff0000;
+    background-color: #f73939;
     transform: scale(1.05);
     transition: all 0.3s ease;
 }

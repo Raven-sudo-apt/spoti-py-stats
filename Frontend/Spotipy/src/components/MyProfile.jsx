@@ -18,7 +18,7 @@ function MyProfile() {
     {error && <p style={{ color: 'red' }}>{error}</p>}
     
     </div>
-    <div className='profileContainer'>
+    <div className='profileContainer' style={{display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column", width: "100%", marginTop: "50px"}}>
     <div><h2>{user?.username}'s Profile</h2></div>
     <div><p>Joined: {Joined}</p></div>
     <div>
@@ -35,7 +35,7 @@ function MyProfile() {
       ) : (
         <div>
         <p>No profile picture available.</p>
-        <button onClick={() => navigate('/settings')}>Settings</button>
+        <button className="logbtn" onClick={() => navigate('user/settings')}>Settings</button>
         </div>
         
       )}

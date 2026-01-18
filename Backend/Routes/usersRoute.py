@@ -26,14 +26,14 @@ async def signup_user(user_req: UserCreate):
             session.add(user)
             session.commit()
             session.refresh(user)
-    except Exception as err:
-        return JSONResponse(status_code=400, content={"message": "Error creating user", "error": str(err)})
+    except Exception as error:
+        return JSONResponse(status_code=400, content={"message": "Error creating user", "error": str(error)})
     return JSONResponse(status_code=201, content={"message": "Sign up successful, redirecting to login page..."})
     
 
 @user_router.post("/login")
 def login_user(login_req: UserLogin):
-    secret_key = os.getenv("JWT_SECRET", "change-me")
+    secret_key = os.getenv("JWT_SECRET")
     expire = datetime.now(timezone.utc) + timedelta(days=30)
     req_dict = login_req.model_dump()
 

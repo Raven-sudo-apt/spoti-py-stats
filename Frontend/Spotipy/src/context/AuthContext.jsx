@@ -141,7 +141,6 @@ export function AuthProvider({ children }) {
         ModalConfirmLogout,
         handleLogout,
         loadProfilePicture,
-        updateUserContext,
       }}
     >
       {children}

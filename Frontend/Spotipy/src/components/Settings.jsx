@@ -84,10 +84,11 @@ function Settings() {
       {makeshiftNavbar()}
       <div style={{ padding: '20px' }}>
         {userData && (
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '50px' }}>
-            <h2>User Settings</h2>
-            <p>Name: {userData.username}</p>
+          <div className="profileContainer">
+            <h2>User Settings</h2>  
+            <p>Username: {userData.username}</p>
             <p>Email: {userData.email}</p>
+            <img src={userData.profile_picture} alt="Profile" style={{ width: '150px', height: '150px', borderRadius: '50%', boxShadow: '2px 4px 8px rgba(0, 185, 114, 0.64)' }} />
             <button className='logbtn' onClick={() => { setShowSettings(true) }}>Change Settings</button>
           </div>
         )}

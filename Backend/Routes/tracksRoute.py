@@ -32,7 +32,18 @@ async def upload_track(track_file: UploadFile = File(), db: Session = Depends(ge
 @track_router.get("/")
 async def list_tracks(db: Session = Depends(get_db)):
     tracks = db.exec(select(Track)).all()
-    return {"tracks": [{"id": str(t.id), "title": t.title, "artist_name": t.artist_name, "filename": t.filename, "url": get_presigned_url(t.filename), "owner_id": str(t.owner_id)} for t in tracks]}
+    return {
+        "tracks": [
+        {
+            "id": str(t.id),
+            "title": t.title,
+            "filename": t.filename, 
+            "url": get_presigned_url(t.filename), 
+            "owner_id": str(t.owner_id)
+         }
+         for t in tracks
+                ]
+            }
 
 @track_router.get("/my-tracks/")
 async def get_my_tracks(db: Session = Depends(get_db), user: User = Depends(get_user)):
@@ -47,12 +58,8 @@ async def get_my_tracks(db: Session = Depends(get_db), user: User = Depends(get_
                 "created_at": str(t.created_at),
             }
             for t in tracks
-        ]
-    }
-
-# @track_router.put("/{track_id}")
-# async def update_track(track_id: str):
-#     return {"message": f"Update track with ID {track_id}"}
+                 ]
+            }
 
 @track_router.delete("/{track_id}")
 async def delete_track(track_id: str):
@@ -63,7 +70,3 @@ async def delete_track(track_id: str):
         session.delete(track)
         session.commit()
     return {"message": "Track deleted successfully"}
-
-# @track_router.get("/stream/{track_id}")
-# async def stream_track(track_id: str):
-#     return {"message": f"Stream track with ID {track_id}"}

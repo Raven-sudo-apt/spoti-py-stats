@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import { useAuth } from '../context/AuthContext.jsx'
-import NowPlayingInfo from './nowPlayingInfo.jsx'
 import DeleteTrack from './DeleteTrack.jsx'
 
 function Library({ onSelectTrack }) {
-  const { user, token } = useAuth()
   const [tracks, setTracks] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
@@ -31,8 +28,7 @@ function Library({ onSelectTrack }) {
         console.log(response.data)
         setTracks(response.data.tracks)
       } catch (err) {
-        setError('Failed to load tracks')
-        console.error(err)
+        setError(err.message)
       } finally {
         setLoading(false)
       }
@@ -51,23 +47,22 @@ function Library({ onSelectTrack }) {
           <h3>| Tracks</h3>
           {loading && <p>Loading tracks...</p>}
             {error && <p style={{ color: 'red' }}>{error}</p>}
-            <ul>
+            <ul style={{width: '100%', gap: '10px', display: 'flex', flexDirection: 'column' }}>
             {tracks && tracks.length > 0 ? (
               tracks.map((track) => (
-                <li className='libraryItem' key={track.id} style={{ backgroundColor: nowPlaying?.id === track.id ? '#00352c' : '', cursor: 'pointer' }}
+                <div key={track.id} style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <li className='libraryItem' style={{ backgroundColor: nowPlaying?.id === track.id ? '#00352c' : '', cursor: 'pointer' }}
                   onClick={() => { setNowPlaying(track)
                                   if (onSelectTrack) {
                                   onSelectTrack(track) }
                                   }}>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
                     <div>{track.title}</div>
-                    <DeleteTrack
-                      trackId={track.id}
-                      trackTitle={track.title}
-                      onDeleted={handleTrackDeleted}
-                    />
-                  </div>
                 </li>
+                <DeleteTrack
+                trackId={track.id}
+                trackTitle={track.title}
+                onDeleted={handleTrackDeleted}/>
+                </div>
               ))
             ) : ( !loading && <p>No tracks found. Upload one to get started!</p> )}
             </ul>

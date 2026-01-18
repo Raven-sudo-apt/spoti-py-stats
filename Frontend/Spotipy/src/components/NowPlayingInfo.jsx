@@ -2,7 +2,12 @@ import React from 'react'
 import TrackPlaying from './trackPlaying'
 
 function NowPlayingInfo({ track }) {
-    if (!track) return null
+    if (!track) return <div className='nowPlaying'>
+                        <div className='nowPlayingHeader'><img style={{ width: "30px" }} src='../../src/assets/image_white.png' /><h3>Now Playing</h3></div>
+                        <div className='nowPlayingInfo'>
+                        <h4>Choose a track to play</h4>
+                        </div>
+                        </div>
 
     return (
         <div>

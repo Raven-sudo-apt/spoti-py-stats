@@ -10,7 +10,7 @@ export function AuthProvider({ children }) {
   const [error, setError] = useState(null)
   const [confirmLogout, setConfirmLogout] = useState(false)
   const navigate = useNavigate()
-
+  
   useEffect(() => {
     const verifyAuth = async () => {
       try {
@@ -60,8 +60,7 @@ export function AuthProvider({ children }) {
       const response = await axios.post('http://localhost:8000/user/signup', payload)
       return response.data
     } catch (err) {
-      setError(err.message || 'Signup failed')
-      throw err
+      setError(err.message)
     } finally {
       setLoading(false)
     }
@@ -142,6 +141,7 @@ export function AuthProvider({ children }) {
         ModalConfirmLogout,
         handleLogout,
         loadProfilePicture,
+        updateUserContext,
       }}
     >
       {children}

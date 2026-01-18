@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import axios from 'axios'
+// import React, { useEffect, useState } from 'react'
+// import { Link } from 'react-router-dom'
+// import axios from 'axios'
 import { useAuth } from '../context/AuthContext.jsx'
-import { useNavigate } from 'react-router-dom'
+
 
 function MyProfile() {
   const { user, loading, error, logout, navigate, makeshiftNavbar } = useAuth()

@@ -6,9 +6,9 @@ from fastapi.responses import JSONResponse
 from sqlmodel import Session, select
 from pwdlib import PasswordHash
 
-from db import engine
+from db import engine, get_db
 from models.Users import User
-from schemas.users import UserCreate, UserLogin
+from schemas.users import UserCreate, UserLogin, UserUpdate
 from Routes.auth_helper import get_user
 
 user_router = APIRouter()
@@ -93,8 +93,23 @@ async def get_user_by_id(user_id: str):
         return user_dict
 
 @user_router.put("/me")
-async def update_user(user_id: str):
-    return {"message": f"Update user with ID {user_id}"}
+async def update_user(db: Session = Depends(get_db), current_user: User = Depends(get_user), updated_data: UserUpdate = None):
+    user = db.get(User, current_user.id)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    update_dict = updated_data.model_dump(exclude_unset=True)
+    
+    for key, value in update_dict.items():
+        setattr(user, key, value)
+    
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+    
+    user_dict = user.model_dump()
+    return user_dict
+    
 
 @user_router.delete("/{user_id}")
 async def delete_user(user_id: str):

@@ -7,10 +7,6 @@ function DeleteTrack({ trackId, trackTitle, onDeleted }) {
     const [error, setError] = useState(null)
 
     const handleDelete = async () => {
-        if (!trackId) {
-            setError('Missing track id')
-            return
-        }
 
         setConfirmDelete(true)
         setError(null)
@@ -25,8 +21,7 @@ function DeleteTrack({ trackId, trackTitle, onDeleted }) {
 
             setShowModal(false)
         } catch (err) {
-            setError('Error deleting track')
-            console.error('Error deleting track:', err)
+            setError(err.message)
         } finally {
             setConfirmDelete(false)
         }
@@ -35,40 +30,17 @@ function DeleteTrack({ trackId, trackTitle, onDeleted }) {
     return (
         <>
             <button
-                className="DeleteButton"
-                onClick={(event) => {
-                    event.stopPropagation()
-                    setShowModal(true)
-                }}
-            >
-                Delete
-            </button>
+                className="DeleteButton" onClick={() => setShowModal(true)}> x </button>
 
             {showModal && (
-                <div
-                    className="ModalBackground"
-                >
-                    <div
-                        className="ModalConfirm"
-                        onClick={(event) => event.stopPropagation()}
-                    >
+                <div className="ModalBackground">
+                    <div className="ModalConfirm">
                         <h3>Delete track?</h3>
                         <p>Are you sure you want to delete {trackTitle || 'this track'}?</p>
                         {error && <p style={{ color: 'red' }}>{error}</p>}
                         <div id="buttonContainer">
-                            <button
-                                id="ConfirmButton"
-                                onClick={handleDelete}
-                                disabled={confirmDelete}>
-                                {confirmDelete ? 'Deleting...' : 'Yes, delete'}
-                            </button>
-                            <button
-                                id="CancelButton"
-                                onClick={() => setShowModal(false)}
-                                disabled={confirmDelete}
-                            >
-                                Cancel
-                            </button>
+                            <button id="ConfirmButton" onClick={handleDelete} disabled={confirmDelete}> {confirmDelete ? 'Deleting...' : 'Yes, delete'}</button>
+                            <button id="CancelButton" onClick={() => setShowModal(false)}> Cancel </button>
                         </div>
                     </div>
                 </div>

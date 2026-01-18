@@ -135,7 +135,7 @@ a{
 
 .libraryItem{
     display: flex;
-    width: 350px;
+    width: 275px;
     align-items: center;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -159,7 +159,7 @@ ul, li {
     justify-content: space-around;
     padding: 20px;
 }
-.createPlaylist{
+/* .createPlaylist{
     width: 250px;
     height: 250px;
     border-radius: 12px;
@@ -179,7 +179,7 @@ ul, li {
 .createPlaylist:hover{
     transform: scale(1.05);
     transition: all 0.3s ease;
-}
+} */
 
 .addTrack{
     width: 250px;

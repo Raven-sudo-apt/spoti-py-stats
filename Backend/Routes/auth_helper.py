@@ -24,21 +24,20 @@ def get_presigned_url(filename: str, expiration: int = 3600) -> str:
 
 def get_user(jwt: str = Cookie(...), db: Session = Depends(get_db)) -> User:
     if not jwt:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Not authenticated")
+        raise HTTPException(status_code=401, detail="Not authenticated")
     
     secret_key = os.getenv("JWT_SECRET")
     
     try:
         payload = jwt_lib.decode(jwt, secret_key, "HS256")
     except jwt_lib.InvalidTokenError as exc: 
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token") from exc
+        raise HTTPException(status_code=401, detail="Invalid token") from exc
 
     user_id = payload.get("sub")
     if not user_id:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token payload")
-
+        raise HTTPException(status_code=401, detail="Invalid token payload")
     user = db.exec(select(User).where(User.id == user_id)).first()
     if not user:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="User not found")
+        raise HTTPException(status_code=401, detail="User not found")
 
     return user
